@@ -1,0 +1,78 @@
+/* Estilos para el footer, se asegura que esté al final de la página */
+footer {
+  border-top: #038ef9 solid 4px;
+  background-color: #333;
+  color: #fff;
+  padding-top:30px;
+  width: 100vw;
+  text-align: center;
+  position: relative; /* Mantiene su posición relativa en pantallas grandes */
+  margin-top: auto; /* Empuja el footer al final del contenedor principal */
+  box-sizing: border-box;
+}
+
+/* Para enlaces y texto en el footer */
+footer a,
+footer p {
+  padding-bottom: 1rem;
+}
+
+.footlist {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 15px;
+  transition-duration: .4s;
+  font-size: 1.2rem;
+}
+
+#copy {
+  text-align: center;
+}
+
+.footlink {
+  color: white !important;
+  text-decoration: none;
+  transition-duration: .4s;
+}
+
+.footlink:hover {
+  transform: scale(1.4);
+  transition-duration: .4s;
+  text-decoration: none;
+}
+
+/* Estructura general para mantener el footer al final */
+body, html {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  margin: 0;
+}
+
+.main-container {
+  flex: 1; /* Asegura que el contenedor principal ocupe el espacio necesario */
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Ajustes para pantallas de tablets */
+@media (max-width: 900px) {
+  .footlist {
+    justify-content: center;
+  }
+}
+
+/* Ajustes para pantallas pequeñas (celulares) */
+@media (max-width: 650px) {
+  .main-container {
+    margin-top: -60px;
+    flex: 1; /* Asegura que el contenedor principal ocupe el espacio necesario */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+}

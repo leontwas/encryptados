@@ -1,0 +1,422 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Chicle&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap');
+
+.head {
+  height: 100px;
+  margin: 20px;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/********************* Header ***********************/
+header {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  box-sizing: border-box;
+  background-color: rgb(8, 8, 8);
+}
+
+nav .form-control-2 {
+  /* Buscador en la página de contacto.html*/
+  background-color: initial;
+  border: initial;
+  padding: initial;
+  background-color: white;
+  color: #555;
+  margin-right: 10px;
+  margin-left: 10px;
+  /* Añadir separación del borde izquierdo */
+  border-radius: 5px;
+  align-items: center;
+  text-align: left;
+  padding-left: 5px;
+}
+
+.header-container {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  /* Alinea los elementos al principio */
+  padding: 10px;
+  background-color: white;
+}
+
+/* Ajustar la barra de navegación para ocupar todo el ancho */
+.navbar {
+  background-color: #3c4a63 !important;
+  color: white !important;
+  width: 100vw !important;
+  /* Hace que ocupe todo el ancho de la pantalla */
+  padding: 0;
+  /* Elimina cualquier padding adicional */
+  margin-left: 0;
+  /* Asegura que no haya márgenes laterales */
+  margin-right: 0;
+  box-sizing: border-box;
+  /* Incluye bordes y padding dentro del ancho total */
+}
+
+.navbar-nav {
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+}
+
+.navbar-nav {
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.navbar-nav .nav-link {
+  color: black;
+  /* Color inicial del texto */
+  border-bottom: 4px solid transparent;
+  /* Sin borde por defecto */
+  transition: all 0.1s ease-in-out;
+  /* Transición suave */
+  line-height: 1.2;
+  /* Ajusta la altura de línea para acercar el texto al subrayado */
+  padding-bottom: 2px;
+  /* Reduce el espacio debajo del texto */
+}
+
+.navbar-nav .nav-link:hover {
+  color: black;
+  /* Color del texto al hacer hover */
+  border-bottom: 4px solid #07f8e4;
+  /* Borde inferior al hacer hover */
+}
+
+.nav-link.dropdown-toggle::after {
+  content: none;
+}
+
+.navbar-light .navbar-nav .nav-link {
+  color: white;
+  /* Cambia el color del texto del menú */
+}
+
+.navbar-light .navbar-brand {
+  color: white;
+  /* Cambia el color del texto del logo */
+}
+
+.navbar-light .navbar-toggler {
+  border-color: white;
+  /* Cambia el color del borde del botón toggle */
+}
+
+.navbar-light .navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='%23FFFFFF' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255, 255, 255, 1)' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+  /* Cambia el color de las barras del icono toggle */
+}
+
+.navbar-light .dropdown-menu {
+  background-color: #333;
+  /* Cambia el fondo del menú desplegable */
+}
+
+.navbar-light .dropdown-item {
+  color: white;
+  /* Cambia el color del texto de los items en el dropdown */
+}
+
+.navbar-light .dropdown-item:hover {
+  background-color: #555;
+  /* Cambia el fondo al pasar el cursor */
+}
+
+.nav-link.active {
+  color: white !important;
+}
+
+.nav-link.active:hover {
+  color: black !important;
+}
+
+.navbar-light {
+  color: black;
+  padding-top: 2px;
+  border-bottom: #038ef9 solid 4px;
+}
+
+.nav-item.dropdown {
+  font-size: 16px;
+  /* Ajusta el tamaño según lo necesites */
+}
+
+.btn-outline-success {
+  color: white;
+  /* Texto en blanco */
+  border-color: white !important;
+  /* Borde blanco */
+}
+
+.btn-outline-success:hover {
+  color: black;
+  /* Texto en negro al hacer hover */
+  background-color: white;
+  /* Fondo blanco al hacer hover */
+  border-color: black;
+  /* Borde negro al hacer hover */
+}
+
+/* Logo alineado a la izquierda */
+.logo {
+  position: absolute;
+  top:10px;
+  left: 10px;
+  max-width: 90px;
+  height: auto;
+}
+
+/* Contenedor de los títulos */
+.titulos {
+  text-align: center;
+}
+
+.categoria {
+  font-size: 1.2rem;
+  color: white;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 9px;
+  margin-bottom: 9px;
+}
+
+/* Estilo del menú desplegable */
+.menu-desplegable {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+/********************* Fin Header *******************************/
+.menu {
+  margin: 0;
+  padding: 0;
+  background-color: #3c4a63;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  height: 70px;
+  cursor: pointer;
+  list-style: none;
+  border-bottom: #038ef9 solid 4px;
+}
+
+.menu li {
+  text-align: center;
+}
+
+.menu .selected a {
+  background-color: #3c4a63;
+  padding: 8px 10px;
+  border-radius: 5px;
+}
+
+.menu li a {
+  text-decoration: none;
+}
+
+.menu li:hover {
+  height: 85px;
+}
+
+.menu>li:hover>a {
+  color: black;
+  border-bottom:4px solid #07f8e4;
+  transition: all 0.1s ease-in-out;
+}
+
+.menu>li a {
+  color: white;
+  background-color: #3c4a63;
+  position: relative;
+  height: 100%;
+}
+
+.menu>li>a::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 3px;
+  bottom: 3px;
+  left: 0;
+  transition: all 0.2s ease-in-out;
+  scale: 0 0;
+  visibility: hidden;
+}
+
+.menu>li:hover>a::before {
+  visibility: visible;
+  scale: 1 1;
+}
+
+/************************************* Estilos para dispositivos móviles **********************************************/
+@media (max-width: 650px) {
+  .libre-baskerville-regular {
+    padding-left: 95px;
+    padding-right: 30px;
+    font-size: 1.2rem;
+  }
+
+  .logo {
+    margin-left: 0px;
+    margin-top: 5px
+  }
+
+  .Empresa {
+      font-size: 2rem;
+      margin-top: 20px;
+      margin-left: 70px;
+  }
+
+  .categoria {
+    font-size: 0.5rem;
+  }
+
+  /* Icono hamburguesa */
+  .menu-desplegable {
+    display: block;
+    font-size: 30px;
+    cursor: pointer;
+    position: absolute;
+    right: 10px;
+    top: 25px;
+  }
+
+  .menu {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 95px;
+    left: 0;
+    width: 100%;
+    height: 50vh;
+    background-color: #3c4a63;
+    /* Fondo verde del menú desplegable */
+    gap: 0;
+    z-index: 999;
+    overflow-y: auto;
+  }
+
+  .menu li {
+    width: 100%;
+    padding: 10px 0;
+  }
+
+  .menu li a {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    text-align: center;
+    background-color: #3c4a63;
+    /* Fondo verde para enlaces en menú desplegable */
+    color: white;
+    /* Texto negro */
+    border-bottom: 1px solid #ccc;
+  }
+
+  .menu.active {
+    display: flex;
+    margin-top: 30px;
+    height: fit-content !important;
+  }
+
+  nav .form-control-2 {
+    width: 300px;
+    margin-right: -15px;
+    margin-left: -5px;
+  }
+
+  #buscar {
+    margin-left: -10px;
+  }
+}
+
+/* Ocultar el ícono del menú hamburguesa en tablets y notebooks */
+@media (min-width: 651px) {
+  .menu-desplegable {
+    display: none !important;
+  }
+
+  .menu {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+}
+
+/************************************* Estilos para dispositivos tablets **********************************************/
+@media (min-width: 651px) and (max-width: 850px) {
+  .categoria {
+    font-size: 1rem;
+    padding-left: 40px;
+  }
+
+  .libre-baskerville-regular {
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 40px;
+    font-size: 1.5rem;
+  }
+
+  .logo {
+    width: 110px;
+    /* Ajusta el tamaño del logo */
+    margin-top: -10px;
+  }
+
+  nav .form-control-2 {
+    width: 710px;
+    margin-right: -15px;
+  }
+
+  #buscar {
+    margin-left: -15px;
+  }
+}
+
+/************************************* Estilos para dispositivos notebooks **********************************************/
+@media (min-width: 851px) {
+  .logo {
+    margin-top: -10px;
+  }
+
+  #titulo-auditoria{
+    margin-top: 10px;
+  }
+
+  #titulo-insumos{
+    margin-top: 10px;
+    margin-bottom: 8px;
+  }
+
+  #titulo-capacitaciones{
+    margin-top: 10px;
+    margin-bottom: 8px;
+  }
+
+  #titulo-contacto{
+    margin-bottom: 10px;  
+  }
+
+  #titulo-carrito{
+   margin-bottom: 10px; 
+  }
+}

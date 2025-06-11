@@ -1,0 +1,130 @@
+:root {
+  --bs-body-line-height: initial; /* Anula la variable */
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-family: Arial, sans-serif;
+}
+
+main {
+  flex: 1; /* Ocupa todo el espacio disponible */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.navbar-nav {
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+}
+
+.navbar-nav .nav-link {
+  color: black;
+  border-bottom: 4px solid transparent;
+  transition: all 0.1s ease-in-out;
+  line-height: 1.2;
+  padding-bottom: 2px;
+}
+
+.navbar-nav .nav-link:hover {
+  color: black;
+  border-bottom: 4px solid #cd7e35;
+}
+
+.navbar-light .navbar-nav .nav-link,
+.navbar-light .navbar-brand {
+  color: white;
+}
+
+.navbar-light .navbar-toggler {
+  border-color: white;
+}
+
+.navbar-light .navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='%23FFFFFF' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255, 255, 255, 1)' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+.container {
+  margin: 10px auto;
+  max-width: 800px;
+  padding: 20px;
+  background-color: #fffffe;
+  border-radius: 15px;
+  box-shadow: 10px 10px 5px #161616;
+}
+
+#texto-negro2 {
+  font-size: 2.5rem;
+  color: #000;
+  text-shadow: 2px 2px 4px #555, -1px -1px 2px #fff, 1px 1px 1px rgba(0, 0, 0, 0.3);
+  text-align: center;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  box-shadow: 5px 5px 5px #161616;
+  margin: 10px;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.eliminar {
+  background-color: red;
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  cursor: pointer;
+  height:30px;
+}
+
+.eliminar:hover {
+  background-color: darkred;
+}
+
+.highlight {
+  background-color: yellow;
+  color: red;
+}
+
+/* Responsividad */
+@media (max-width: 900px) {
+  .container {
+    max-width: 90%;
+  }
+}
+
+@media (max-width: 650px) {
+  #texto-negro2 {
+    font-size: 1.8rem;
+  }
+
+    #insumos {
+    font-size: 0.9rem;
+    margin-left: 60px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+  
+  .container {
+    max-width: 95%;
+    padding: 15px;
+  }
+}

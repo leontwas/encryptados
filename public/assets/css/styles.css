@@ -1,0 +1,25 @@
+@import "footer.css";
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
+
+:root {
+    h2 {
+        font-size: 1.4rem;
+        font-weight: 400;
+    }
+}
+
+main {
+    padding: 20px;
+}
+
+body {
+    height: 100vh;
+    margin: 0;
+    background: linear-gradient(to bottom, #888a8a, #d5d8da);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    font-family: "Raleway", sans-serif;
+    font-optical-sizing:auto;
+    font-style: normal;
+}
+

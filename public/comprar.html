@@ -1,0 +1,170 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Bungee+Spice&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Kalam:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.5.2/css/all.css">
+    <link rel="stylesheet" href="./assets/css/styles.css">
+    <link rel="stylesheet" href="./assets/css/contacto.css">
+    <link rel="stylesheet" href="./assets/css/comprar.css">
+    <link rel="stylesheet" href="./assets/css/fuentes.css">
+    <link rel="stylesheet" href="./assets/css/header.css">
+    <link rel="stylesheet" href="./assets/css/footer.css">
+    <title>Comprar</title>
+</head>
+<body>
+        <header class="header">
+     
+            <a href="insumos.html">
+                <img alt="logo Encryptados" src="./assets/images/logo.png" class="logo">
+              </a>
+    
+            <div class="titulos">
+                <h1 class="Empresa">Encryptados</h1>
+                <h2 id="insumos" class="categoria">La tecnología al alcance de tu mano</h2>
+            </div>
+        </header>
+      <nav class="navbar navbar-expand-lg navbar-light bg-light main-nav">
+        <div class="container-fluid">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="index.html">Inicio</a>
+
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="./auditorias.html" id="auditorias">
+                  Auditorías
+                </a>
+              </li>
+
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="./servicios.html">
+                  Servicios
+                </a>
+              </li>
+
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="./capacitaciones.html">
+                  Capacitaciones
+                </a>
+              </li>
+
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="./insumos.html" id="insumos">
+                  Insumos
+                </a>
+              </li>
+
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="./contacto.html">
+                  Contacto
+                </a>
+              </li>
+
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="./nosotros.html">
+                  Nosotros
+                </a>
+              </li>
+
+              <li class="nav-item dropdown">
+                <a class="nav-link" href="./login.html" id="admin">Admin</a>
+              </li>
+  
+            </ul>
+            <form class="d-flex">
+              <input class="form-control-2 me-2" type="search" placeholder="Buscar" aria-label="Search">
+              <button class="btn btn-outline-success" id="buscar" type="submit">Buscar</button>
+            </form>
+          </div>
+        </div>
+      </nav>
+    <main>
+        <div class="titulo">
+            <h1 class="kalam-bold" id="texto-negro1">Completa este formulario para finalizar tu compra...</h1>
+        </div>
+        <div class="contenedor">
+            <section class="bg-black bg-opacity-75 text-black p-5">
+              <h2 class="sr-only">Formulario de datos del cliente</h2>
+
+                <!-- Cambia la acción por el endpoint de Formspree -->
+                <form id="formulario" action="https://formspree.io/f/meoqebwy" method="POST">
+                    <div class="form-floating mb-3">
+                        <input name="nombre" type="text" class="form-control" id="nombre" placeholder="Nombre" required>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input name="apellido" type="text" class="form-control" id="apellido" placeholder="Apellido" required>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input name="telefono" type="tel" class="form-control" id="telefono" placeholder="Teléfono" required>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input name="email" type="email" class="form-control" id="email" placeholder="Correo electrónico" required>
+                    </div>
+                    <!-- Input oculto para el carrito -->
+                    <input type="hidden" name="carrito" id="carrito">
+                    <br>
+                    <div class="botonera">
+                      <button type="reset" class="btn btn-primary" id="borrar">Borrar</button>
+                      <button type="button" class="btn btn-danger" id="cancelar">Cancelar</button>
+                      <button type="submit" class="btn btn-success" id="enviar">Enviar</button>
+                  </div>
+                </form>
+            </section>
+
+            <section class="image-section">
+              <h2 class="sr-only">imagen de un carrito de compras</h2>
+                <img src="./assets/images/shopping-cart.webp" alt="imagen de un carrito de supermercado" class="entrevista">
+            </section>
+        </div>
+    </main>
+    <footer>
+        <div class="footlist">
+        <a
+            class="footlink fab fa-brands fa-youtube fa-2x"
+            href="https://youtube.com"
+            title="YouTube"
+            target="_blank"
+          ></a>
+          <a
+            class="footlink fa-brands fa-instagram fa-2x"
+            href="https://www.instagram.com"
+            title="Instagram"
+            target="_blank"
+          ></a>
+          <a
+            class="footlink fa-brands fa-whatsapp fa-2x"
+            href="https://whatsapp.com"
+            title="Whatsapp"
+            target="_blank"
+          ></a>
+          <a
+            class="footlink fa-brands fa-facebook fa-2x"
+            href="https://www.facebook.com"
+            title="Facebook"
+            target="_blank"
+          ></a>
+        </div>
+        <p>
+          <small
+            >&copy; 2025 Todos los derechos reservados</small>
+        </p>
+      </footer>
+    <script>
+        function toggleMenu() {
+            const menu = document.querySelector('.menu');
+            menu.classList.toggle('active');
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <script src="./assets/js/validaciones2.js"></script>
+    <script src="./assets/js/busqueda.js"></script>
+    </body>
+</html>

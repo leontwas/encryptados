@@ -1,0 +1,161 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    text-align: center;
+    background-color: rgb(248, 217, 105);
+}
+
+.ql-toolbar.ql-snow {
+    border: 1px solid darkolivegreen !important;
+}
+
+#editor-container {
+    width: 100%;
+    margin: 0 auto;
+    height: 300px;
+    border: 1px solid darkolivegreen;
+    border-radius: 5px;
+    overflow-y: auto;
+}
+
+button {
+    margin-top: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Estilo para el botón de eliminar */
+button.eliminar {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+button.eliminar:hover {
+    background-color: darkred;
+}
+
+/* Estilo para el botón de agregar */
+button.agregar {
+    background-color: green;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+button.agregar:hover {
+    background-color: darkgreen;
+}
+
+/* Estilo del contenedor de productos */
+#products-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* Centra las tarjetas */
+    gap: 20px;
+    padding: 10px;
+}
+
+/* Estilo de cada tarjeta de producto */
+.product-card {
+    width: 250px; /* Tamaño fijo para uniformidad */
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    background-color: #fff;
+    transition: transform 0.2s ease; /* Añade un efecto al pasar el ratón */
+}
+
+.product-card:hover {
+    transform: translateY(-5px); /* Eleva la tarjeta al hacer hover */
+}
+
+/* Imagen del producto */
+.product-image {
+    display: block;
+    max-width: 100%;
+    height: 150px;
+    object-fit: cover; /* Recorta la imagen para que ocupe el área */
+    margin: 0 auto;
+    background-color: #f9f9f9; /* Color de fondo para imágenes faltantes */
+}
+
+/* Detalles del producto */
+.product-details {
+    padding: 15px;
+}
+
+/* Nombre del producto */
+.product-name {
+    font-size: 1.2em;
+    margin: 0;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Precio del producto */
+.product-price {
+    font-size: 1em;
+    color: #555;
+    margin: 5px 0;
+}
+
+/* Botones */
+.product-buttons {
+    display: flex;
+    justify-content: space-around;
+    gap: 10px;
+    padding: 10px;
+}
+
+.product-buttons button {
+    width: 45%;
+}
+
+img {
+    max-width: 200px;
+    max-height: 150px;
+}
+
+h3 {
+    font-size: medium;
+}
+
+.product-card {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+/* Media Queries */
+@media (max-width: 768px) {
+    .product-card {
+        width: 90%; /* Las tarjetas ocupan casi todo el ancho */
+    }
+
+    #products-container {
+        flex-direction: column; /* Las tarjetas se apilan en columnas */
+        align-items: center;
+    }
+}
+
+.highlight {
+    background-color: yellow;
+    color: red;
+}

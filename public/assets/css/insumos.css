@@ -1,0 +1,156 @@
+@import url('https://fonts.cdnfonts.com/css/ica-rubrik-black');
+@import url('https://fonts.cdnfonts.com/css/poppins');
+
+  .btn-outline-success {
+    color: white; /* Texto en blanco */
+    border-color: white; /* Borde blanco */
+  }
+  
+  .btn-outline-success:hover {
+    color: black; /* Texto en negro al hacer hover */
+    background-color: white; /* Fondo blanco al hacer hover */
+    border-color: black; /* Borde negro al hacer hover */
+  }
+
+  /* Estilos de la sección de productos */
+.products {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin: 20px auto;
+}
+.products .article img {
+  width: 100%; /* Ajusta el ancho al contenedor */
+  height: auto; /* Mantiene la proporción de la imagen */
+  object-fit: contain; /* Asegura que la imagen no se recorte ni deforme */
+  max-width: 300px; /* Tamaño máximo para las imágenes (opcional) */
+  margin: 0 auto; /* Centra la imagen horizontalmente si es necesario */
+  display: block; /* Elimina los espacios en línea alrededor de la imagen */
+}
+.article {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 250px;
+  padding: 15px;
+  background: linear-gradient(to bottom, black, gray);
+
+  border-radius: 15px;
+  box-shadow: 10px 10px 5px #161616;
+}
+
+.article h5 {
+  font-weight: 350;
+  letter-spacing: 1.4px;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.article img {
+  width: 100%; /* Ajusta el ancho al tamaño del contenedor */
+  height: auto; /* Mantiene la proporción de la imagen */
+  object-fit: contain; /* Asegura que la imagen no se recorte ni deforme */
+  max-width: 400px; /* Tamaño máximo de la imagen (opcional) */
+  margin: 0 auto; /* Centra la imagen horizontalmente */
+  display: block; /* Elimina el espacio en línea generado por las imágenes */
+}
+
+/* Estilos para los botones */
+.botonera {
+  display: flex;
+  justify-content: center; /* Centra los botones horizontalmente */
+  align-items: center;   /* Alinea los botones verticalmente */
+  gap: 20px;             /* Espaciado entre los botones */
+}
+
+.agregar {
+  font-size: 1.05rem;
+  padding: 10px 20px;
+  background-color: #50633C;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  text-align: center;
+  transition: background-color 0.3s, transform 0.2s;
+  box-shadow: 5px 5px 5px #161616;
+}
+
+.agregar:hover {
+  background-color: #293b15;
+}
+
+.ver {
+  padding: 10px 20px; /* Asegúrate de que el tamaño sea uniforme */
+  background-color: rgb(42, 172, 172);
+  color: white;
+  border: none;
+  border-radius: 10px; /* Igualar bordes redondeados */
+  cursor: pointer;
+  font-weight: bold;
+  text-align: center;
+  transition: background-color 0.3s, transform 0.2s;
+  box-shadow: 5px 5px 5px #161616;
+}
+
+.ver:hover {
+  background-color: #0056b3;
+}
+
+#insumos {
+  font-size: 1.4rem;
+  margin-bottom: 9px;
+}
+
+.texto-negro1 {
+  font-family: 'ICA Rubrik';
+  font-size: 1rem;
+  color: #feffff;
+  text-shadow: 2px 2px 4px #131313, -1px -1px 2px #2e2c2c, 1px 1px 1px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease-in-out;
+  text-align: center;
+}
+
+.texto-negro2 {
+  color:  white;
+  font-family: 'Roboto', sans-serif;
+  transition: transform 0.3s ease-in-out;
+  text-align: center;
+}
+
+.description {
+  color:black;
+  margin-top: 20px;
+  font-weight: bold;
+}
+
+.highlight {
+  background-color: yellow;
+  color: red;
+}
+
+/* Media queries para responsividad */
+@media (max-width: 650px) {
+
+  /* Para tablets */
+  .article img {
+    max-width: 100%;
+    /* Asegura que ocupe todo el contenedor */
+  }
+
+  #insumos {
+    font-size: 0.9rem;
+    margin-left: 60px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+
+}
+
+@media (min-width: 651px) and (max-width: 850px) { /* Para celulares */
+    .article img {
+        max-width: 100%; /* Mantiene responsividad en pantallas pequeñas */
+    }
+}

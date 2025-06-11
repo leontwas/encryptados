@@ -1,0 +1,60 @@
+.Empresa {
+  font-family: Roboto, serif;
+  font-size: 3rem;
+  font-style: italic !important; 
+  background: linear-gradient(to bottom, rgb(108, 197, 252) 50%, rgb(99, 99, 100) 50%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  line-height: 1;
+}
+
+.libre-baskerville-regular {
+  font-family: "Libre Baskerville", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.libre-baskerville-bold {
+  font-family: "Libre Baskerville", serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.libre-baskerville-regular-italic {
+  font-family: "Libre Baskerville", serif;
+  font-weight: 400;
+  font-style: italic;
+}
+
+.kalam-regular {
+    font-family: "Kalam", cursive;
+    font-weight: 400;
+    font-style: normal;
+  }
+  
+  .kalam-bold {
+    font-family: "Kalam", cursive;
+    font-weight: 700;
+    font-style: normal;
+  }  
+  
+  .chicle-regular {
+      font-family: "Chicle", serif;
+      font-weight: 400;
+      font-style: oblique;
+  }
+
+  .bungee-regularspice- {
+    margin-bottom: 5px;
+    font-family: "Bungee Spice", sans-serif;
+    font-weight: 400;
+    font-style:normal;
+  }  
+
+  .sedgwick-ave-display-regular {
+    font-family: "Sedgwick Ave Display", cursive;
+    font-weight: 400;
+    font-style: normal;
+    position: relative;
+    color:gold;
+  }

@@ -1,0 +1,54 @@
+#texto-negro1{
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+.btn-primary:hover {
+    background-color: #004085; /* Azul oscuro */
+}
+
+.btn-danger:hover {
+    background-color: #a71d2a; /* Rojo oscuro */
+}
+
+.btn-success:hover {
+    background-color: #1e7e34; /* Verde oscuro */
+}
+
+#cancelar {
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    cursor: pointer;
+    border-radius: 10%;
+    box-shadow: 10px 10px 5px #161616;
+}
+
+#formulario {
+    width: 400px;
+}
+
+.sr-only {
+    visibility: hidden;
+}
+
+.highlight {
+    background-color: yellow;
+    color: red;
+}
+
+@media (max-width: 650px) {
+    #formulario {
+        margin-left: -50px !important;
+        width: 350px;
+    }
+
+    .botonera {
+        margin-left: -30px !important;
+    }
+
+    .entrevista {
+        margin-left: -30px !important;
+    }
+}
