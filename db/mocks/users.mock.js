@@ -1,7 +1,7 @@
 const usersMock = [ 
   {
     id_usuario: 1,
-    nombre_usuario: "Juan",
+    nombre_usuario: "Juan Perez",
     email: "juan@example.com",
     pass: "1234"
   },

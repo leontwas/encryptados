@@ -4,7 +4,7 @@ import Mysql from '../connections/Mysql.js';
 export default class ProductsDaoMysql extends Mysql {
   constructor() {
     super();
-    this.table = "producto";
+    this.table = 'producto';
     this.#createTable();
   }
 
@@ -39,15 +39,16 @@ export default class ProductsDaoMysql extends Mysql {
     return result;
   }
 
-  async getProductsByName(name) {
-    const query = `SELECT * FROM ${this.table} WHERE nombre_producto = '${name}'`;
-    const [result] = await this.connection.promise().query(query);
+    async getProductsByName(nombre_producto) {
+    const query = `SELECT * FROM ${this.table} WHERE nombre_producto LIKE ?`;
+    const values = [`%${nombre_producto}%`]; // Busca coincidencias parciales
+    const [result] = await this.connection.promise().query(query, values);
     return result;
-  } 
+}
 
   async addProduct(product) {
     const { id_producto, nombre_producto, categoria_id, descripcion, precio, stock, imagen_url } = product;
-    const query = `INSERT INTO ${this.table} VALUES (?,?,?,?,?,?)`;
+    const query = `INSERT INTO ${this.table} VALUES (?,?,?,?,?,?,?)`;
     const [result] = await this.connection
       .promise()
       .query(query, [id_producto, nombre_producto, categoria_id, descripcion, precio, stock, imagen_url]);
@@ -63,7 +64,7 @@ export default class ProductsDaoMysql extends Mysql {
     return result;
   }
 
-  async deleteUser(id_producto) {
+  async deleteProduct(id_producto) {
     const query = `DELETE FROM ${this.table} WHERE id_producto = ${id_producto}`;
     const [result] = await this.connection.promise().query(query);
     return result;

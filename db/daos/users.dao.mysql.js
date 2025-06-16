@@ -36,11 +36,14 @@ export default class UsersDaoMysql extends Mysql {
     return result;
   }
 
-  async getUsersByName(name) {
-    const query = `SELECT * FROM ${this.table} WHERE nombre_usuario = '${name}'`;
-    const [result] = await this.connection.promise().query(query);
+async getUsersByName(nombre_usuario) {
+    const palabras = nombre_usuario.trim().split(/\s+/);
+    const conditions = palabras.map(() => `LOWER(nombre_usuario) LIKE ? COLLATE utf8mb4_general_ci`).join(" OR ");
+    const values = palabras.map(p => `%${p.toLowerCase()}%`);
+    const query = `SELECT * FROM ${this.table} WHERE ${conditions}`;
+    const [result] = await this.connection.promise().query(query, values);
     return result;
-  }
+}
 
   async addUser(user) {
     const { id_usuario, nombre_usuario, email, pass } = user;
@@ -52,7 +55,7 @@ export default class UsersDaoMysql extends Mysql {
   }
 
   async modifyUser(user) {
-    const { id_usuario, nombre_usuario, email, pass }  = user;
+    const { id_usuario, nombre_usuario, email, pass } = user;
     const query = `UPDATE ${this.table} SET nombre_usuario = ?, email = ?, pass = ? WHERE id_usuario = ?`;
     const [result] = await this.connection
       .promise()
