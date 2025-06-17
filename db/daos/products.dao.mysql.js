@@ -22,50 +22,63 @@ export default class ProductsDaoMysql extends Mysql {
     this.connection.query(query);
   }
 
-  async getAllProducts() {
-    try {
-      const query = `SELECT * FROM ${this.table}`;
-      const [result] = await this.connection.promise().query(query);
-      return result;
-    } catch (err) {
-      console.log("Problemas al obtener los productos");
-      return [];
-    }
+ async getAllProducts() {
+    return await db.execute(`SELECT * FROM ${this.table}`);
   }
 
-  async getProductById(id) {
-    const query = `SELECT * FROM ${this.table} WHERE id_producto = ?`;
-    const [result] = await this.connection.promise().query(query, [id]);
-    return result;
+  async getProductById(id_producto) {
+    const rows = await db.execute(
+      `SELECT * FROM ${this.table} WHERE id_producto = ?`,
+      [id_producto]
+    );
+    return rows[0] || null; // ✅ Mejor devolver null si no existe
   }
 
-  async getProductsByName(name) {
-    const query = `SELECT * FROM ${this.table} WHERE nombre_producto = '${name}'`;
-    const [result] = await this.connection.promise().query(query);
-    return result;
-  } 
-
-  async addProduct(product) {
-    const { id_producto, nombre_producto, categoria_id, descripcion, precio, stock, imagen_url } = product;
-    const query = `INSERT INTO ${this.table} VALUES (?,?,?,?,?,?)`;
-    const [result] = await this.connection
-      .promise()
-      .query(query, [id_producto, nombre_producto, categoria_id, descripcion, precio, stock, imagen_url]);
-    return result;
+  async getProductsByName(nombre_producto) {
+    const query = `SELECT * FROM ${this.table} WHERE LOWER(nombre_producto) LIKE ?`;
+    const values = [`%${nombre_producto.toLowerCase()}%`];
+    return await db.execute(query, values);
   }
 
-  async modifyProduct(producto) {
-    const { id_producto, nombre_producto, categoria_id, descripcion, precio, stock, imagen_url } = producto;
-    const query = `UPDATE ${this.table} SET nombre_producto = ?,  categoria_id = ?, descripcion = ?, precio = ?, stock = ? , imagen_url = ? WHERE id_producto = ?`;
-    const [result] = await this.connection
-      .promise()
-      .query(query, [nombre_producto, categoria_id, descripcion, precio, stock, imagen_url, id_producto]);
-    return result;
+  async addProduct({ nombre_producto, categoria_id, descripcion, precio, stock, image_url }) {
+    const sql = `
+      INSERT INTO ${this.table} (nombre_producto, categoria_id, descripcion, precio, stock, image_url)
+      VALUES (?, ?, ?, ?, ?, ?)
+    `;
+    return await db.execute(sql, [
+      nombre_producto,
+      categoria_id,
+      descripcion,
+      precio,
+      stock,
+      image_url,
+    ]);
   }
 
-  async deleteUser(id_producto) {
-    const query = `DELETE FROM ${this.table} WHERE id_producto = ${id_producto}`;
-    const [result] = await this.connection.promise().query(query);
-    return result;
+  async modifyProduct({ id_producto, nombre_producto, categoria_id, descripcion, precio, stock, image_url }) {
+    const sql = `
+      UPDATE ${this.table} SET 
+        nombre_producto = ?, 
+        categoria_id = ?, 
+        descripcion = ?, 
+        precio = ?, 
+        stock = ?, 
+        image_url = ?
+      WHERE id_producto = ?
+    `;
+    return await db.execute(sql, [
+      nombre_producto,
+      categoria_id,
+      descripcion,
+      precio,
+      stock,
+      image_url,
+      id_producto,
+    ]);
+  }
+
+  async deleteProduct(id_producto) {
+    const sql = `DELETE FROM ${this.table} WHERE id_producto = ?`;
+    return await db.execute(sql, [id_producto]);
   }
 }

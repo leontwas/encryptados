@@ -19,50 +19,43 @@ export default class UsersDaoMysql extends Mysql {
     this.connection.query(query);
   }
 
-  async getAllUsers() {
-    try {
-      const query = `SELECT * FROM ${this.table}`;
-      const [result] = await this.connection.promise().query(query);
-      return result;
-    } catch (err) {
-      console.log("Problemas al obtener los usuarios");
-      return [];
-    }
+    async getAllUsers() {
+    const rows = await this.execute(`SELECT * FROM ${this.table}`);
+    return rows;
   }
 
-  async getUserById(id) {
-    const query = `SELECT * FROM ${this.table} WHERE id_usuario = ?`;
-    const [result] = await this.connection.promise().query(query, [id]);
+  async getUserById(id_usuario) {
+    const rows = await this.execute(
+      `SELECT * FROM ${this.table} WHERE id_usuario = ?`,
+      [id_usuario]
+    );
+    return rows[0];
+  }
+
+  async getUsersByName(nombre_usuario) {
+    const palabras = nombre_usuario.trim().split(/\s+/);
+    const conditions = palabras.map(() => `LOWER(nombre_usuario) LIKE ?`).join(' OR ');
+    const values = palabras.map(p => `%${p.toLowerCase()}%`);
+    const query = `SELECT * FROM ${this.table} WHERE ${conditions}`;
+    const rows = await this.execute(query, values);
+    return rows;
+  }
+
+  async addUser({ nombre_usuario, email, pass }) {
+    const sql = `INSERT INTO ${this.table} (nombre_usuario, email, pass) VALUES (?, ?, ?)`;
+    const result = await this.execute(sql, [nombre_usuario, email, pass]);
     return result;
   }
 
-  async getUsersByName(name) {
-    const query = `SELECT * FROM ${this.table} WHERE nombre_usuario = '${name}'`;
-    const [result] = await this.connection.promise().query(query);
-    return result;
-  }
-
-  async addUser(user) {
-    const { id_usuario, nombre_usuario, email, pass } = user;
-    const query = `INSERT INTO ${this.table} VALUES (?,?,?,?)`;
-    const [result] = await this.connection
-      .promise()
-      .query(query, [id_usuario, nombre_usuario, email, pass]);
-    return result;
-  }
-
-  async modifyUser(user) {
-    const { id_usuario, nombre_usuario, email, pass }  = user;
-    const query = `UPDATE ${this.table} SET nombre_usuario = ?, email = ?, pass = ? WHERE id_usuario = ?`;
-    const [result] = await this.connection
-      .promise()
-      .query(query, [nombre_usuario, email, pass, id_usuario]);
+  async modifyUser({ id_usuario, nombre_usuario, email, pass }) {
+    const sql = `UPDATE ${this.table} SET nombre_usuario = ?, email = ?, pass = ? WHERE id_usuario = ?`;
+    const result = await this.execute(sql, [nombre_usuario, email, pass, id_usuario]);
     return result;
   }
 
   async deleteUser(id_usuario) {
-    const query = `DELETE FROM ${this.table} WHERE id_usuario = ${id_usuario}`;
-    const [result] = await this.connection.promise().query(query);
+    const sql = `DELETE FROM ${this.table} WHERE id_usuario = ?`;
+    const result = await this.execute(sql, [id_usuario]);
     return result;
   }
 }
