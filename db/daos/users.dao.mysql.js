@@ -1,5 +1,4 @@
-import Mysql from '../connections/Mysql.js';
-
+import Mysql from "../connections/Mysql.js";
 
 export default class UsersDaoMysql extends Mysql {
   constructor() {
@@ -19,7 +18,7 @@ export default class UsersDaoMysql extends Mysql {
     this.connection.query(query);
   }
 
-   async getAllUsers() {
+ async getAllUsers() {
     const rows = await this.execute(`SELECT * FROM ${this.table}`);
     return rows;
   }
