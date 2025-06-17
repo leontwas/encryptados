@@ -4,8 +4,14 @@ const db = new Mysql(); // ✅ Instancia compartida
 
 export default class ProductsDaoMysql {
   constructor() {
+<<<<<<< HEAD
     this.table = 'producto';
     this._init();
+=======
+    super();
+    this.table = "producto";
+    this.#createTable();
+>>>>>>> parent of 22c6a0a (Fix: búsqueda por coincidencias en nombre_usuario compatible con utf8mb4)
   }
 
   async _init() {
@@ -32,8 +38,24 @@ export default class ProductsDaoMysql {
     await db.execute(query);
   }
 
+<<<<<<< HEAD
   async getAllProducts() {
     return await db.execute(`SELECT * FROM ${this.table}`);
+=======
+  async getProductsByName(name) {
+    const query = `SELECT * FROM ${this.table} WHERE nombre_producto = '${name}'`;
+    const [result] = await this.connection.promise().query(query);
+    return result;
+  } 
+
+  async addProduct(product) {
+    const { id_producto, nombre_producto, categoria_id, descripcion, precio, stock, imagen_url } = product;
+    const query = `INSERT INTO ${this.table} VALUES (?,?,?,?,?,?)`;
+    const [result] = await this.connection
+      .promise()
+      .query(query, [id_producto, nombre_producto, categoria_id, descripcion, precio, stock, imagen_url]);
+    return result;
+>>>>>>> parent of 22c6a0a (Fix: búsqueda por coincidencias en nombre_usuario compatible con utf8mb4)
   }
 
   async getProductById(id_producto) {
@@ -87,8 +109,15 @@ export default class ProductsDaoMysql {
     ]);
   }
 
+<<<<<<< HEAD
   async deleteProduct(id_producto) {
     const sql = `DELETE FROM ${this.table} WHERE id_producto = ?`;
     return await db.execute(sql, [id_producto]);
+=======
+  async deleteUser(id_producto) {
+    const query = `DELETE FROM ${this.table} WHERE id_producto = ${id_producto}`;
+    const [result] = await this.connection.promise().query(query);
+    return result;
+>>>>>>> parent of 22c6a0a (Fix: búsqueda por coincidencias en nombre_usuario compatible con utf8mb4)
   }
 }
