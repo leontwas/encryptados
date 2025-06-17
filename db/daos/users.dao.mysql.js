@@ -19,7 +19,7 @@ export default class UsersDaoMysql extends Mysql {
     this.connection.query(query);
   }
 
-    async getAllUsers() {
+   async getAllUsers() {
     const rows = await this.execute(`SELECT * FROM ${this.table}`);
     return rows;
   }

@@ -32,18 +32,31 @@ export default class UsersControllers {
     }
 
 
-    addUser = async (req, res) => {
-        const user = this.helpers.createUser(req.body)
-        const result = await this.db.addUser(user)
-        res.json(result)
+  addUser = async (req, res) => {
+    try {
+      const userData = this.helpers.createUser(req.body);
+      const result = await this.db.addUser(userData);
+      res.json(result);
+    } catch (err) {
+      res.status(400).json({ error: err.message });
     }
+  };
 
+  modifyUser = async (req, res) => {
+    try {
+      const { id } = req.params;
+      if (!id || isNaN(Number(id))) {
+        return res.status(400).json({ error: "ID de usuario inválido" });
+      }
 
-    modifyUser = async (req, res) => {
-        const user = this.helpers.createUser(req.body)
-        const result = await this.db.modifyUser(user)
-        res.json(result)
+      const userBody = this.helpers.createUser(req.body);
+      const userData = { id_usuario: Number(id), ...userBody };
+      const result = await this.db.modifyUser(userData);
+      res.json(result);
+    } catch (err) {
+      res.status(400).json({ error: err.message });
     }
+  };
 
 
     deleteUser = async (req, res) => {
