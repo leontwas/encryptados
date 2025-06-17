@@ -1,72 +1,94 @@
 import Mysql from '../connections/Mysql.js';
 
+const db = new Mysql(); // ✅ Instancia compartida
 
-export default class ProductsDaoMysql extends Mysql {
+export default class ProductsDaoMysql {
   constructor() {
-    super();
     this.table = 'producto';
-    this.#createTable();
+    this._init();
   }
 
-  #createTable() {
-    const query = `CREATE TABLE IF NOT EXISTS ${this.table}(
-        id_producto int(11) NOT NULL,
-        nombre_producto varchar(50) NOT NULL,
-        categoria_id int(11) NOT NULL,
-        descripcion varchar(200) NOT NULL,
-        precio int(7) NOT NULL,
-        stock int(3) NOT NULL,
-        image_url varchar(200) NOT NULL COMMENT 'URL de imagen del producto'
-)`;
-
-    this.connection.query(query);
-  }
-
-  async getAllProducts() {
+  async _init() {
     try {
-      const query = `SELECT * FROM ${this.table}`;
-      const [result] = await this.connection.promise().query(query);
-      return result;
-    } catch (err) {
-      console.log("Problemas al obtener los productos");
-      return [];
+      await db.connect();
+      await this.#createTable();
+    } catch (error) {
+      console.error('❌ Error al inicializar ProductsDaoMysql:', error);
     }
   }
 
-  async getProductById(id) {
-    const query = `SELECT * FROM ${this.table} WHERE id_producto = ?`;
-    const [result] = await this.connection.promise().query(query, [id]);
-    return result;
+  async #createTable() {
+    const query = `
+      CREATE TABLE IF NOT EXISTS ${this.table} (
+        id_producto INT AUTO_INCREMENT PRIMARY KEY,
+        nombre_producto VARCHAR(50) NOT NULL,
+        categoria_id INT NOT NULL,
+        descripcion VARCHAR(200) NOT NULL,
+        precio INT NOT NULL,
+        stock INT NOT NULL,
+        image_url VARCHAR(200) NOT NULL COMMENT 'URL de imagen del producto'
+      )
+    `;
+    await db.execute(query);
   }
 
-    async getProductsByName(nombre_producto) {
-    const query = `SELECT * FROM ${this.table} WHERE nombre_producto LIKE ?`;
-    const values = [`%${nombre_producto}%`]; // Busca coincidencias parciales
-    const [result] = await this.connection.promise().query(query, values);
-    return result;
-}
-
-  async addProduct(product) {
-    const { id_producto, nombre_producto, categoria_id, descripcion, precio, stock, imagen_url } = product;
-    const query = `INSERT INTO ${this.table} VALUES (?,?,?,?,?,?,?)`;
-    const [result] = await this.connection
-      .promise()
-      .query(query, [id_producto, nombre_producto, categoria_id, descripcion, precio, stock, imagen_url]);
-    return result;
+  async getAllProducts() {
+    return await db.execute(`SELECT * FROM ${this.table}`);
   }
 
-  async modifyProduct(producto) {
-    const { id_producto, nombre_producto, categoria_id, descripcion, precio, stock, imagen_url } = producto;
-    const query = `UPDATE ${this.table} SET nombre_producto = ?,  categoria_id = ?, descripcion = ?, precio = ?, stock = ? , imagen_url = ? WHERE id_producto = ?`;
-    const [result] = await this.connection
-      .promise()
-      .query(query, [nombre_producto, categoria_id, descripcion, precio, stock, imagen_url, id_producto]);
-    return result;
+  async getProductById(id_producto) {
+    const rows = await db.execute(
+      `SELECT * FROM ${this.table} WHERE id_producto = ?`,
+      [id_producto]
+    );
+    return rows[0] || null; // ✅ Mejor devolver null si no existe
+  }
+
+  async getProductsByName(nombre_producto) {
+    const query = `SELECT * FROM ${this.table} WHERE LOWER(nombre_producto) LIKE ?`;
+    const values = [`%${nombre_producto.toLowerCase()}%`];
+    return await db.execute(query, values);
+  }
+
+  async addProduct({ nombre_producto, categoria_id, descripcion, precio, stock, image_url }) {
+    const sql = `
+      INSERT INTO ${this.table} (nombre_producto, categoria_id, descripcion, precio, stock, image_url)
+      VALUES (?, ?, ?, ?, ?, ?)
+    `;
+    return await db.execute(sql, [
+      nombre_producto,
+      categoria_id,
+      descripcion,
+      precio,
+      stock,
+      image_url,
+    ]);
+  }
+
+  async modifyProduct({ id_producto, nombre_producto, categoria_id, descripcion, precio, stock, image_url }) {
+    const sql = `
+      UPDATE ${this.table} SET 
+        nombre_producto = ?, 
+        categoria_id = ?, 
+        descripcion = ?, 
+        precio = ?, 
+        stock = ?, 
+        image_url = ?
+      WHERE id_producto = ?
+    `;
+    return await db.execute(sql, [
+      nombre_producto,
+      categoria_id,
+      descripcion,
+      precio,
+      stock,
+      image_url,
+      id_producto,
+    ]);
   }
 
   async deleteProduct(id_producto) {
-    const query = `DELETE FROM ${this.table} WHERE id_producto = ${id_producto}`;
-    const [result] = await this.connection.promise().query(query);
-    return result;
+    const sql = `DELETE FROM ${this.table} WHERE id_producto = ?`;
+    return await db.execute(sql, [id_producto]);
   }
 }

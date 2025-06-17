@@ -1,71 +1,66 @@
 import Mysql from '../connections/Mysql.js';
 
-
 export default class UsersDaoMysql extends Mysql {
   constructor() {
     super();
-    this.table = "usuario";
-    this.#createTable();
+    this.table = 'usuario';
+    this.init();
   }
 
-  #createTable() {
-    const query = `CREATE TABLE IF NOT EXISTS ${this.table}(
-        id_usuario int(11) NOT NULL,
-        nombre_usuario varchar(50) NOT NULL COMMENT 'nombre completo',
-        email varchar(50) NOT NULL,
-        pass varchar(100) NOT NULL COMMENT 'Guarda el hash, no el texto'
-)`;
+  async init() {
+    await this.connect(); // Asegura conexión antes de crear tabla
+    await this.#createTable();
+  }
 
-    this.connection.query(query);
+  async #createTable() {
+    const query = `
+      CREATE TABLE IF NOT EXISTS ${this.table} (
+        id_usuario INT AUTO_INCREMENT PRIMARY KEY,
+        nombre_usuario VARCHAR(50) NOT NULL COMMENT 'nombre completo',
+        email VARCHAR(50) NOT NULL UNIQUE,
+        pass VARCHAR(100) NOT NULL COMMENT 'Guarda el hash, no el texto'
+      )
+    `;
+    await this.execute(query); // Usamos execute() público en vez de this.connection.execute
   }
 
   async getAllUsers() {
-    try {
-      const query = `SELECT * FROM ${this.table}`;
-      const [result] = await this.connection.promise().query(query);
-      return result;
-    } catch (err) {
-      console.log("Problemas al obtener los usuarios");
-      return [];
-    }
+    const rows = await this.execute(`SELECT * FROM ${this.table}`);
+    return rows;
   }
 
-  async getUserById(id) {
-    const query = `SELECT * FROM ${this.table} WHERE id_usuario = ?`;
-    const [result] = await this.connection.promise().query(query, [id]);
-    return result;
+  async getUserById(id_usuario) {
+    const rows = await this.execute(
+      `SELECT * FROM ${this.table} WHERE id_usuario = ?`,
+      [id_usuario]
+    );
+    return rows[0];
   }
 
-async getUsersByName(nombre_usuario) {
+  async getUsersByName(nombre_usuario) {
     const palabras = nombre_usuario.trim().split(/\s+/);
-    const conditions = palabras.map(() => `LOWER(nombre_usuario) LIKE ? COLLATE utf8mb4_general_ci`).join(" OR ");
+    const conditions = palabras.map(() => `LOWER(nombre_usuario) LIKE ?`).join(' OR ');
     const values = palabras.map(p => `%${p.toLowerCase()}%`);
     const query = `SELECT * FROM ${this.table} WHERE ${conditions}`;
-    const [result] = await this.connection.promise().query(query, values);
-    return result;
-}
+    const rows = await this.execute(query, values);
+    return rows;
+  }
 
-  async addUser(user) {
-    const { id_usuario, nombre_usuario, email, pass } = user;
-    const query = `INSERT INTO ${this.table} VALUES (?,?,?,?)`;
-    const [result] = await this.connection
-      .promise()
-      .query(query, [id_usuario, nombre_usuario, email, pass]);
+  async addUser({ nombre_usuario, email, pass }) {
+    const sql = `INSERT INTO ${this.table} (nombre_usuario, email, pass) VALUES (?, ?, ?)`;
+    const result = await this.execute(sql, [nombre_usuario, email, pass]);
     return result;
   }
 
-  async modifyUser(user) {
-    const { id_usuario, nombre_usuario, email, pass } = user;
-    const query = `UPDATE ${this.table} SET nombre_usuario = ?, email = ?, pass = ? WHERE id_usuario = ?`;
-    const [result] = await this.connection
-      .promise()
-      .query(query, [nombre_usuario, email, pass, id_usuario]);
+  async modifyUser({ id_usuario, nombre_usuario, email, pass }) {
+    const sql = `UPDATE ${this.table} SET nombre_usuario = ?, email = ?, pass = ? WHERE id_usuario = ?`;
+    const result = await this.execute(sql, [nombre_usuario, email, pass, id_usuario]);
     return result;
   }
 
   async deleteUser(id_usuario) {
-    const query = `DELETE FROM ${this.table} WHERE id_usuario = ${id_usuario}`;
-    const [result] = await this.connection.promise().query(query);
+    const sql = `DELETE FROM ${this.table} WHERE id_usuario = ?`;
+    const result = await this.execute(sql, [id_usuario]);
     return result;
   }
 }
