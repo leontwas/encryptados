@@ -27,7 +27,7 @@ export default class UsersDaoMemory {
     return true;
   }
 
-modifyUser(data) {
+updateUser(data) {
   let modifiedUser = null;
   this.users = this.users.map((user) => {
     if (user.id_usuario === data.id_usuario) {
