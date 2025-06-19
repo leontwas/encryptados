@@ -1,5 +1,38 @@
 import Mysql from '../connections/Mysql.js';
 
+const db = new Mysql(); // ✅ Instancia compartida
+
+export default class ProductsDaoMysql {
+  constructor() {
+    this.table = 'producto';
+    this._init();
+  }
+
+  async _init() {
+    try {
+      await db.connect();
+      await this.#createTable();
+    } catch (error) {
+      console.error('❌ Error al inicializar ProductsDaoMysql:', error);
+    }
+  }
+
+  async #createTable() {
+    const query = `
+      CREATE TABLE IF NOT EXISTS ${this.table} (
+        id_producto INT AUTO_INCREMENT PRIMARY KEY,
+        nombre_producto VARCHAR(50) NOT NULL,
+        categoria_id INT NOT NULL,
+        descripcion VARCHAR(200) NOT NULL,
+        precio INT NOT NULL,
+        stock INT NOT NULL,
+        image_url VARCHAR(200) NOT NULL COMMENT 'URL de imagen del producto'
+      )
+    `;
+    await db.execute(query);
+  }
+import Mysql from '../connections/Mysql.js';
+
 
 export default class ProductsDaoMysql extends Mysql {
   constructor() {
