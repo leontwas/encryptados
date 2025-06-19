@@ -6,7 +6,7 @@ import UsersDaoMysql from '../db/daos/users.dao.mysql.js'
 export default class UsersControllers {
 
     constructor() {
-        this.db = new UsersDaoMemory()
+       // this.db = new UsersDaoMemory()
         this.db = new UsersDaoMysql()
         this.helpers = new UsersHelpers()
     }
@@ -26,10 +26,18 @@ export default class UsersControllers {
 
 
     getUsersByName = async (req, res) => {
-        const { name } = req.query
-        const result = await this.db.getUsersByName(name)
-        res.json(result)
+    try {
+        const { nombre_usuario } = req.query;
+        if (!nombre_usuario) {
+            return res.status(400).json({ error: "Debes enviar el nombre_usuario por query string" });
+        }
+        const result = await this.db.getUsersByName(nombre_usuario);
+        res.json(result);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Error en el servidor" });
     }
+};
 
 
   addUser = async (req, res) => {
