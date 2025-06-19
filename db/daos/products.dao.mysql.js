@@ -55,7 +55,7 @@ export default class ProductsDaoMysql extends Mysql {
     ]);
   }
 
-  async modifyProduct({ id_producto, nombre_producto, categoria_id, descripcion, precio, stock, imagen_url }) {
+  async updateProduct({ id_producto, nombre_producto, categoria_id, descripcion, precio, stock, imagen_url }) {
     const sql = `
       UPDATE ${this.table} SET 
         nombre_producto = ?, 
