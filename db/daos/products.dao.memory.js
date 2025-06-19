@@ -24,12 +24,12 @@ export default class ProductsDaoMemory {
     return result;
   }
 
-  addUser(product) {
+  addProduct(product) {
     this.products.push(product);
     return true;
   }
 
-  modifyProduct(data) {
+  updateProduct(data) {
     let modifiedProduct = null;
     this.products = this.products.map((product) => {
       if (product.id_producto === data.id_producto) {

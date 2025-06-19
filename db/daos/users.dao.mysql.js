@@ -1,30 +1,24 @@
-import Mysql from '../connections/Mysql.js';
+import Mysql from "../connections/Mysql.js";
 
 export default class UsersDaoMysql extends Mysql {
   constructor() {
     super();
-    this.table = 'usuario';
-    this.init();
+    this.table = "usuario";
+    this.#createTable();
   }
 
-  async init() {
-    await this.connect(); // Asegura conexión antes de crear tabla
-    await this.#createTable();
+  #createTable() {
+    const query = `CREATE TABLE IF NOT EXISTS ${this.table}(
+        id_usuario int(11) NOT NULL,
+        nombre_usuario varchar(50) NOT NULL COMMENT 'nombre completo',
+        email varchar(50) NOT NULL,
+        pass varchar(100) NOT NULL COMMENT 'Guarda el hash, no el texto'
+)`;
+
+    this.connection.query(query);
   }
 
-  async #createTable() {
-    const query = `
-      CREATE TABLE IF NOT EXISTS ${this.table} (
-        id_usuario INT AUTO_INCREMENT PRIMARY KEY,
-        nombre_usuario VARCHAR(50) NOT NULL COMMENT 'nombre completo',
-        email VARCHAR(50) NOT NULL UNIQUE,
-        pass VARCHAR(100) NOT NULL COMMENT 'Guarda el hash, no el texto'
-      )
-    `;
-    await this.execute(query); // Usamos execute() público en vez de this.connection.execute
-  }
-
-  async getAllUsers() {
+ async getAllUsers() {
     const rows = await this.execute(`SELECT * FROM ${this.table}`);
     return rows;
   }
@@ -37,7 +31,6 @@ export default class UsersDaoMysql extends Mysql {
     return rows[0];
   }
 
-<<<<<<< HEAD
   async getUsersByName(nombre_usuario) {
     const palabras = nombre_usuario.trim().split(/\s+/);
     const conditions = palabras.map(() => `LOWER(nombre_usuario) LIKE ?`).join(' OR ');
@@ -45,12 +38,6 @@ export default class UsersDaoMysql extends Mysql {
     const query = `SELECT * FROM ${this.table} WHERE ${conditions}`;
     const rows = await this.execute(query, values);
     return rows;
-=======
-  async getUsersByName(name) {
-    const query = `SELECT * FROM ${this.table} WHERE nombre_usuario = '${name}'`;
-    const [result] = await this.connection.promise().query(query);
-    return result;
->>>>>>> parent of 22c6a0a (Fix: búsqueda por coincidencias en nombre_usuario compatible con utf8mb4)
   }
 
   async addUser({ nombre_usuario, email, pass }) {
@@ -59,18 +46,9 @@ export default class UsersDaoMysql extends Mysql {
     return result;
   }
 
-<<<<<<< HEAD
-  async modifyUser({ id_usuario, nombre_usuario, email, pass }) {
+  async updateUser({ id_usuario, nombre_usuario, email, pass }) {
     const sql = `UPDATE ${this.table} SET nombre_usuario = ?, email = ?, pass = ? WHERE id_usuario = ?`;
     const result = await this.execute(sql, [nombre_usuario, email, pass, id_usuario]);
-=======
-  async modifyUser(user) {
-    const { id_usuario, nombre_usuario, email, pass }  = user;
-    const query = `UPDATE ${this.table} SET nombre_usuario = ?, email = ?, pass = ? WHERE id_usuario = ?`;
-    const [result] = await this.connection
-      .promise()
-      .query(query, [nombre_usuario, email, pass, id_usuario]);
->>>>>>> parent of 22c6a0a (Fix: búsqueda por coincidencias en nombre_usuario compatible con utf8mb4)
     return result;
   }
 

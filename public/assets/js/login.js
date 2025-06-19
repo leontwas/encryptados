@@ -6,9 +6,10 @@ document.getElementById('loginForm').addEventListener('submit', async (event) =>
     const password = document.getElementById('password').value;
 
     const loginData = { username, password };
+    console.log("Entrando al catch");
 
     try {
-        const response = await fetch('/.netlify/functions/login', {
+        const response = await fetch('/.onrender/functions/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -27,6 +28,7 @@ document.getElementById('loginForm').addEventListener('submit', async (event) =>
         window.location.href = './administrador.html';
     } catch (error) {
         alert('Error de conexión al servidor.');
+        console.log('Error:', error);
     }
 });
 

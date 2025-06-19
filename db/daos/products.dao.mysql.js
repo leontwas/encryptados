@@ -4,14 +4,8 @@ const db = new Mysql(); // ✅ Instancia compartida
 
 export default class ProductsDaoMysql {
   constructor() {
-<<<<<<< HEAD
     this.table = 'producto';
     this._init();
-=======
-    super();
-    this.table = "producto";
-    this.#createTable();
->>>>>>> parent of 22c6a0a (Fix: búsqueda por coincidencias en nombre_usuario compatible con utf8mb4)
   }
 
   async _init() {
@@ -37,29 +31,36 @@ export default class ProductsDaoMysql {
     `;
     await db.execute(query);
   }
+import Mysql from '../connections/Mysql.js';
 
-<<<<<<< HEAD
-  async getAllProducts() {
-    return await db.execute(`SELECT * FROM ${this.table}`);
-=======
-  async getProductsByName(name) {
-    const query = `SELECT * FROM ${this.table} WHERE nombre_producto = '${name}'`;
-    const [result] = await this.connection.promise().query(query);
-    return result;
-  } 
 
-  async addProduct(product) {
-    const { id_producto, nombre_producto, categoria_id, descripcion, precio, stock, imagen_url } = product;
-    const query = `INSERT INTO ${this.table} VALUES (?,?,?,?,?,?)`;
-    const [result] = await this.connection
-      .promise()
-      .query(query, [id_producto, nombre_producto, categoria_id, descripcion, precio, stock, imagen_url]);
-    return result;
->>>>>>> parent of 22c6a0a (Fix: búsqueda por coincidencias en nombre_usuario compatible con utf8mb4)
+export default class ProductsDaoMysql extends Mysql {
+  constructor() {
+    super();
+    this.table = "producto";
+    this.#createTable();
+  }
+
+  #createTable() {
+    const query = `CREATE TABLE IF NOT EXISTS ${this.table}(
+        id_producto int(11) NOT NULL,
+        nombre_producto varchar(50) NOT NULL,
+        categoria_id int(11) NOT NULL,
+        descripcion varchar(200) NOT NULL,
+        precio int(7) NOT NULL,
+        stock int(3) NOT NULL,
+        imagen_url varchar(200) NOT NULL COMMENT 'URL de imagen del producto'
+)`;
+
+    this.connection.query(query);
+  }
+
+ async getAllProducts() {
+    return await this.execute(`SELECT * FROM ${this.table}`);
   }
 
   async getProductById(id_producto) {
-    const rows = await db.execute(
+    const rows = await this.execute(
       `SELECT * FROM ${this.table} WHERE id_producto = ?`,
       [id_producto]
     );
@@ -69,25 +70,25 @@ export default class ProductsDaoMysql {
   async getProductsByName(nombre_producto) {
     const query = `SELECT * FROM ${this.table} WHERE LOWER(nombre_producto) LIKE ?`;
     const values = [`%${nombre_producto.toLowerCase()}%`];
-    return await db.execute(query, values);
+    return await this.execute(query, values);
   }
 
-  async addProduct({ nombre_producto, categoria_id, descripcion, precio, stock, image_url }) {
+  async addProduct({ nombre_producto, categoria_id, descripcion, precio, stock, imagen_url }) {
     const sql = `
-      INSERT INTO ${this.table} (nombre_producto, categoria_id, descripcion, precio, stock, image_url)
+      INSERT INTO ${this.table} (nombre_producto, categoria_id, descripcion, precio, stock, imagen_url)
       VALUES (?, ?, ?, ?, ?, ?)
     `;
-    return await db.execute(sql, [
+    return await this.execute(sql, [
       nombre_producto,
       categoria_id,
       descripcion,
       precio,
       stock,
-      image_url,
+      imagen_url,
     ]);
   }
 
-  async modifyProduct({ id_producto, nombre_producto, categoria_id, descripcion, precio, stock, image_url }) {
+  async updateProduct({ id_producto, nombre_producto, categoria_id, descripcion, precio, stock, imagen_url }) {
     const sql = `
       UPDATE ${this.table} SET 
         nombre_producto = ?, 
@@ -95,29 +96,22 @@ export default class ProductsDaoMysql {
         descripcion = ?, 
         precio = ?, 
         stock = ?, 
-        image_url = ?
+        imagen_url = ?
       WHERE id_producto = ?
     `;
-    return await db.execute(sql, [
+    return await this.execute(sql, [
       nombre_producto,
       categoria_id,
       descripcion,
       precio,
       stock,
-      image_url,
+      imagen_url,
       id_producto,
     ]);
   }
 
-<<<<<<< HEAD
   async deleteProduct(id_producto) {
     const sql = `DELETE FROM ${this.table} WHERE id_producto = ?`;
-    return await db.execute(sql, [id_producto]);
-=======
-  async deleteUser(id_producto) {
-    const query = `DELETE FROM ${this.table} WHERE id_producto = ${id_producto}`;
-    const [result] = await this.connection.promise().query(query);
-    return result;
->>>>>>> parent of 22c6a0a (Fix: búsqueda por coincidencias en nombre_usuario compatible con utf8mb4)
+    return await this.execute(sql, [id_producto]);
   }
 }
