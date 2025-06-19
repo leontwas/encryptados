@@ -16,54 +16,69 @@ export default class ProductsDaoMysql extends Mysql {
         descripcion varchar(200) NOT NULL,
         precio int(7) NOT NULL,
         stock int(3) NOT NULL,
-        image_url varchar(200) NOT NULL COMMENT 'URL de imagen del producto'
+        imagen_url varchar(200) NOT NULL COMMENT 'URL de imagen del producto'
 )`;
 
     this.connection.query(query);
   }
 
- getProducts = async (req, res) => {
-    const products = await this.db.getAllProducts();
-    res.json(products);
-  };
+ async getAllProducts() {
+    return await this.execute(`SELECT * FROM ${this.table}`);
+  }
 
-  getProductById = async (req, res) => {
-    const { id } = req.params;
-    const product = await this.db.getProductById(id);
-    res.json(product);
-  };
+  async getProductById(id_producto) {
+    const rows = await this.execute(
+      `SELECT * FROM ${this.table} WHERE id_producto = ?`,
+      [id_producto]
+    );
+    return rows[0] || null; // ✅ Mejor devolver null si no existe
+  }
 
-  getProductsByName = async (req, res) => {
-    try {
-      const { nombre_producto } = req.query;
-      if (!nombre_producto) {
-        return res
-          .status(400)
-          .json({ error: "Debes enviar el nombre_producto por query string" });
-      }
-      const result = await this.db.getProductsByName(nombre_producto);
-      res.json(result);
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: "Error en el servidor" });
-    }
-  };
+  async getProductsByName(nombre_producto) {
+    const query = `SELECT * FROM ${this.table} WHERE LOWER(nombre_producto) LIKE ?`;
+    const values = [`%${nombre_producto.toLowerCase()}%`];
+    return await this.execute(query, values);
+  }
 
-  addProduct = async (req, res) => {
-    const product = this.helpers.createProduct(req.body);
-    const result = await this.db.addProduct(product);
-    res.json(result);
-  };
+  async addProduct({ nombre_producto, categoria_id, descripcion, precio, stock, imagen_url }) {
+    const sql = `
+      INSERT INTO ${this.table} (nombre_producto, categoria_id, descripcion, precio, stock, imagen_url)
+      VALUES (?, ?, ?, ?, ?, ?)
+    `;
+    return await this.execute(sql, [
+      nombre_producto,
+      categoria_id,
+      descripcion,
+      precio,
+      stock,
+      imagen_url,
+    ]);
+  }
 
-  modifyProduct = async (req, res) => {
-    const product = this.helpers.createProduct(req.body);
-    const result = await this.db.modifyProduct(product);
-    res.json(result);
-  };
+  async updateProduct({ id_producto, nombre_producto, categoria_id, descripcion, precio, stock, imagen_url }) {
+    const sql = `
+      UPDATE ${this.table} SET 
+        nombre_producto = ?, 
+        categoria_id = ?, 
+        descripcion = ?, 
+        precio = ?, 
+        stock = ?, 
+        imagen_url = ?
+      WHERE id_producto = ?
+    `;
+    return await this.execute(sql, [
+      nombre_producto,
+      categoria_id,
+      descripcion,
+      precio,
+      stock,
+      imagen_url,
+      id_producto,
+    ]);
+  }
 
-  deleteProduct = async (req, res) => {
-    const { id } = req.params;
-    const result = await this.db.deleteProduct(id);
-    res.json(result);
-  };
+  async deleteProduct(id_producto) {
+    const sql = `DELETE FROM ${this.table} WHERE id_producto = ?`;
+    return await this.execute(sql, [id_producto]);
+  }
 }
