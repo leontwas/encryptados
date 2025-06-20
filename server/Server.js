@@ -3,6 +3,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import UsersRoutes from '../routes/users.routes.js';
 import ProductsRoutes from '../routes/products.routes.js';
+import DetallesRoutes from '../routes/detalles.routes.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -22,6 +23,8 @@ export default class Server {
     static routes() {
         const usersRoutes = new UsersRoutes();
         const productsRoutes = new ProductsRoutes();
+        const detallesRoutes = new DetallesRoutes();
+        Server.app.use("/detalles", detallesRoutes.router);
         Server.app.use('/users', usersRoutes.router);
         Server.app.use('/products', productsRoutes.router);
 
@@ -38,7 +41,7 @@ export default class Server {
     }
 
     static run(port) {
-        console.clear();
+       // console.clear();
         Server.middlewares();
         Server.routes();
         Server.runServer(port);

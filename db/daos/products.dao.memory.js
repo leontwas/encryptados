@@ -3,7 +3,7 @@ import productsMock from '../mocks/products.mock.js'
 
 export default class ProductsDaoMemory {
   constructor() {
-    this.users = productsMock;
+    this.products = productsMock;
   }
 
   getAllProducts() {
@@ -33,7 +33,7 @@ export default class ProductsDaoMemory {
     let modifiedProduct = null;
     this.products = this.products.map((product) => {
       if (product.id_producto === data.id_producto) {
-        modifiedUser = data;
+        modifiedProduct = data;
         return data;
       }
       return product;
