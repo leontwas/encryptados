@@ -1,34 +1,149 @@
 import Mysql from "../connections/Mysql.js";
 
-// 👉 Función para crear la tabla 'direccion'
-export async function createDireccionTable() {
-  const db = new Mysql();
+export default class DireccionDaoMysql extends Mysql {
+  constructor() {
+    super();
+    this.table = "direccion";
+  }
 
-  try {
-    await db.initialize(); // Conexión asegurada
+  async init() {
+    if (!this.connection) {
+      await this.initialize();
+    }
+    await this.#createTable();
+  }
 
-    const query = `
-      CREATE TABLE IF NOT EXISTS direccion (
-        id_direccion INT(11) NOT NULL AUTO_INCREMENT,
-        usuario_id INT(11) NOT NULL,
-        etiqueta VARCHAR(20) NOT NULL COMMENT '"Casa", "Trabajo", etc',
-        calle VARCHAR(20) NOT NULL,
-        nro INT(5) NOT NULL,
-        localidad VARCHAR(30) NOT NULL,
-        provincia VARCHAR(30) NOT NULL,
-        pais VARCHAR(30) NOT NULL,
-        codigo_postal VARCHAR(20) NOT NULL,
-        is_facturado TINYINT(1) NOT NULL COMMENT 'True si es para facturación',
-        PRIMARY KEY (id_direccion),
-        INDEX (usuario_id),
-        FOREIGN KEY (usuario_id) REFERENCES usuario(id_usuario) ON DELETE CASCADE ON UPDATE CASCADE
-      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  async #createTable() {
+    try {
+      const query = `
+        CREATE TABLE IF NOT EXISTS ${this.table} (
+          id_direccion INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+          usuario_id INT(11) NOT NULL,
+          etiqueta VARCHAR(50),
+          calle VARCHAR(100) NOT NULL,
+          nro INT(11) NOT NULL,
+          localidad VARCHAR(50) NOT NULL,
+          provincia VARCHAR(50) NOT NULL,
+          pais VARCHAR(50) NOT NULL,
+          codigo_postal VARCHAR(15) NOT NULL,
+          is_facturado BOOLEAN NOT NULL DEFAULT 0,
+          FOREIGN KEY (usuario_id) REFERENCES usuario(id_usuario) ON DELETE CASCADE ON UPDATE CASCADE
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+      `;
+      await this.execute(query);
+      console.log(`✅ Tabla '${this.table}' creada o verificada correctamente`);
+    } catch (error) {
+      console.error(`❌ Error al crear tabla '${this.table}':`, error);
+    }
+  }
+
+  async getAllDirecciones() {
+    try {
+      return await this.execute(`SELECT * FROM ${this.table}`);
+    } catch (error) {
+      console.error("❌ Error al obtener direcciones:", error);
+      throw error;
+    }
+  }
+
+  async getDireccionById(id_direccion) {
+    try {
+      const rows = await this.execute(
+        `SELECT * FROM ${this.table} WHERE id_direccion = ?`,
+        [id_direccion]
+      );
+      return rows[0] || null;
+    } catch (error) {
+      console.error("❌ Error al obtener dirección por ID:", error);
+      throw error;
+    }
+  }
+
+  async addDireccion({
+    usuario_id,
+    etiqueta,
+    calle,
+    nro,
+    localidad,
+    provincia,
+    pais,
+    codigo_postal,
+    is_facturado = 0
+  }) {
+    const sql = `
+      INSERT INTO ${this.table} 
+      (usuario_id, etiqueta, calle, nro, localidad, provincia, pais, codigo_postal, is_facturado)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
+    try {
+      return await this.execute(sql, [
+        usuario_id,
+        etiqueta,
+        calle,
+        nro,
+        localidad,
+        provincia,
+        pais,
+        codigo_postal,
+        is_facturado
+      ]);
+    } catch (error) {
+      console.error("❌ Error al agregar dirección:", error);
+      throw error;
+    }
+  }
 
-    await db.execute(query);
-    console.log("✅ Tabla 'direccion' creada o verificada correctamente");
+  async updateDireccion({
+    id_direccion,
+    usuario_id,
+    etiqueta,
+    calle,
+    nro,
+    localidad,
+    provincia,
+    pais,
+    codigo_postal,
+    is_facturado = 0
+  }) {
+    const sql = `
+      UPDATE ${this.table} SET
+        usuario_id = ?,
+        etiqueta = ?,
+        calle = ?,
+        nro = ?,
+        localidad = ?,
+        provincia = ?,
+        pais = ?,
+        codigo_postal = ?,
+        is_facturado = ?
+      WHERE id_direccion = ?
+    `;
+    try {
+      return await this.execute(sql, [
+        usuario_id,
+        etiqueta,
+        calle,
+        nro,
+        localidad,
+        provincia,
+        pais,
+        codigo_postal,
+        is_facturado,
+        id_direccion
+      ]);
+    } catch (error) {
+      console.error("❌ Error al actualizar dirección:", error);
+      throw error;
+    }
+  }
 
-  } catch (error) {
-    console.error("❌ Error al crear tabla direccion:", error);
+  async deleteDireccion(id_direccion) {
+    const sql = `DELETE FROM ${this.table} WHERE id_direccion = ?`;
+    try {
+      return await this.execute(sql, [id_direccion]);
+    } catch (error) {
+      console.error("❌ Error al eliminar dirección:", error);
+      throw error;
+    }
   }
 }

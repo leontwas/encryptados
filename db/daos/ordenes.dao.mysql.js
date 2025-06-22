@@ -3,7 +3,7 @@ import Mysql from "../connections/Mysql.js";
 export default class OrdenesDaoMysql extends Mysql {
   constructor() {
     super();
-    this.table = "orden"; 
+    this.table = "orden";
   }
 
   async init() {
@@ -19,9 +19,9 @@ export default class OrdenesDaoMysql extends Mysql {
         id_orden INT(11) NOT NULL AUTO_INCREMENT,
         usuario_id INT(11) NOT NULL,
         direccion_id INT(11) NOT NULL,
-        saldo INT(8) NOT NULL COMMENT 'Monto a pagar',
-        estado ENUM('realizado','en_proceso','cancelado') NOT NULL,
-        fecha_orden DATETIME NOT NULL COMMENT 'Fecha y hora en que se realiza la orden',
+        saldo DECIMAL(15,2) NOT NULL COMMENT 'Monto total a pagar',
+        estado ENUM('realizado','en_proceso','cancelado','en_disputa','pendiente') NOT NULL COMMENT 'Estado actual de la orden',
+        fecha_facturacion DATETIME NOT NULL COMMENT 'Fecha y hora de facturación',
         PRIMARY KEY (id_orden),
         INDEX (usuario_id),
         INDEX (direccion_id),
@@ -32,7 +32,7 @@ export default class OrdenesDaoMysql extends Mysql {
     await this.execute(query);
   }
 
-  async getAll() {
+  async getAllOrdenes() {
     try {
       return await this.execute(`SELECT * FROM ${this.table}`);
     } catch (error) {
@@ -41,7 +41,7 @@ export default class OrdenesDaoMysql extends Mysql {
     }
   }
 
-  async getById(id_orden) {
+  async getOrdenById(id_orden) {
     try {
       const rows = await this.execute(
         `SELECT * FROM ${this.table} WHERE id_orden = ?`,
@@ -54,42 +54,60 @@ export default class OrdenesDaoMysql extends Mysql {
     }
   }
 
-  async add(orden) {
-    const { usuario_id, direccion_id, saldo, estado, fecha_orden } = orden;
+  async addOrden({ usuario_id, direccion_id, saldo, estado, fecha_facturacion }) {
     const sql = `
-      INSERT INTO ${this.table} (usuario_id, direccion_id, saldo, estado, fecha_orden)
+      INSERT INTO ${this.table} (usuario_id, direccion_id, saldo, estado, fecha_facturacion)
       VALUES (?, ?, ?, ?, ?)
     `;
+
+    // Validación previa
+    if ([usuario_id, direccion_id, saldo, estado, fecha_facturacion].includes(undefined)) {
+      throw new Error(`❗ Parámetros inválidos en addOrden(): ${JSON.stringify({ usuario_id, direccion_id, saldo, estado, fecha_facturacion })}`);
+    }
+
     try {
-      const result = await this.execute(sql, [usuario_id, direccion_id, saldo, estado, fecha_orden]);
-      return result;
+      return await this.execute(sql, [
+        usuario_id ?? null,
+        direccion_id ?? null,
+        saldo ?? null,
+        estado ?? null,
+        fecha_facturacion ?? null,
+      ]);
     } catch (error) {
       console.error("❌ Error al agregar orden:", error);
       throw error;
     }
   }
 
-  async update(orden) {
-    const { id_orden, usuario_id, direccion_id, saldo, estado, fecha_orden } = orden;
+  async updateOrden({ id_orden, usuario_id, direccion_id, saldo, estado, fecha_facturacion }) {
     const sql = `
       UPDATE ${this.table}
-      SET usuario_id = ?, direccion_id = ?, saldo = ?, estado = ?, fecha_orden = ?
+      SET usuario_id = ?, direccion_id = ?, saldo = ?, estado = ?, fecha_facturacion = ?
       WHERE id_orden = ?
     `;
+
+    if ([id_orden, usuario_id, direccion_id, saldo, estado, fecha_facturacion].includes(undefined)) {
+      throw new Error(`❗ Parámetros inválidos en updateOrden(): ${JSON.stringify({ id_orden, usuario_id, direccion_id, saldo, estado, fecha_facturacion })}`);
+    }
+
     try {
-      const result = await this.execute(sql, [usuario_id, direccion_id, saldo, estado, fecha_orden, id_orden]);
-      return result;
+      return await this.execute(sql, [
+        usuario_id,
+        direccion_id,
+        saldo,
+        estado,
+        fecha_facturacion,
+        id_orden,
+      ]);
     } catch (error) {
       console.error("❌ Error al actualizar orden:", error);
       throw error;
     }
   }
 
-  async delete(id_orden) {
-    const sql = `DELETE FROM ${this.table} WHERE id_orden = ?`;
+  async deleteOrden(id_orden) {
     try {
-      const result = await this.execute(sql, [id_orden]);
-      return result;
+      return await this.execute(`DELETE FROM ${this.table} WHERE id_orden = ?`, [id_orden]);
     } catch (error) {
       console.error("❌ Error al eliminar orden:", error);
       throw error;
@@ -97,21 +115,21 @@ export default class OrdenesDaoMysql extends Mysql {
   }
 }
 
-// 👉 Función para crear la tabla 'orden'
+// 👉 Función independiente para crear la tabla
 export async function createOrdenTable() {
   const db = new Mysql();
 
   try {
-    await db.initialize(); // Conexión asegurada
+    await db.initialize();
 
     const query = `
       CREATE TABLE IF NOT EXISTS orden (
         id_orden INT(11) NOT NULL AUTO_INCREMENT,
         usuario_id INT(11) NOT NULL,
         direccion_id INT(11) NOT NULL,
-        saldo INT(8) NOT NULL COMMENT 'Monto a pagar',
-        estado ENUM('realizado','en_proceso','cancelado') NOT NULL,
-        fecha_orden DATETIME NOT NULL COMMENT 'Fecha y hora en que se realiza la orden',
+        saldo DECIMAL(15,2) NOT NULL COMMENT 'Monto total a pagar',
+        estado ENUM('realizado','en_proceso','cancelado','en_disputa','pendiente') NOT NULL COMMENT 'Estado actual de la orden',
+        fecha_facturacion DATETIME NOT NULL COMMENT 'Fecha y hora de facturación',
         PRIMARY KEY (id_orden),
         INDEX (usuario_id),
         INDEX (direccion_id),
@@ -122,8 +140,7 @@ export async function createOrdenTable() {
 
     await db.execute(query);
     console.log("✅ Tabla 'orden' creada o verificada correctamente");
-
   } catch (error) {
-    console.error("❌ Error al crear tabla orden:", error);
+    console.error("❌ Error al crear tabla 'orden':", error);
   }
 }

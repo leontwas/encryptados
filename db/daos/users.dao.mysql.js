@@ -14,14 +14,22 @@ export default class UsersDaoMysql extends Mysql {
   }
 
   async #createTable() {
-    const query = `CREATE TABLE IF NOT EXISTS ${this.table} (
-      id_usuario INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-      nombre_usuario VARCHAR(50) NOT NULL COMMENT 'nombre completo',
-      email VARCHAR(50) NOT NULL,
-      pass VARCHAR(100) NOT NULL COMMENT 'Guarda el hash, no el texto'
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;`;
+    try {
+      const query = `
+        CREATE TABLE IF NOT EXISTS ${this.table} (
+          id_usuario INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+          nombre_usuario VARCHAR(50) NOT NULL COMMENT 'Nombre completo del usuario',
+          email VARCHAR(50) NOT NULL UNIQUE COMMENT 'Correo electrónico único',
+          pass VARCHAR(100) NOT NULL COMMENT 'Hash de la contraseña (no texto plano)'
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+      `;
 
-    await this.execute(query);
+      await this.execute(query);
+      console.log("✅ Tabla 'usuario' creada o verificada correctamente");
+
+    } catch (error) {
+      console.error("❌ Error al crear tabla 'usuario':", error);
+    }
   }
 
   async getAllUsers() {

@@ -4,6 +4,7 @@ export default class ProductsDaoMysql extends Mysql {
   constructor() {
     super();
     this.table = "producto";
+    this.foreignKeyCreated = false; // bandera inicial
   }
 
   async init() {
@@ -14,18 +15,31 @@ export default class ProductsDaoMysql extends Mysql {
   }
 
   async #createTable() {
-    const query = `CREATE TABLE IF NOT EXISTS ${this.table} (
-      id_producto INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-      nombre_producto VARCHAR(50) NOT NULL,
-      categoria_id INT(11) NOT NULL,
-      descripcion VARCHAR(200) NOT NULL,
-      precio DECIMAL(10,2) NOT NULL,
-      stock INT(11) NOT NULL,
-      imagen_url VARCHAR(200) NOT NULL COMMENT 'URL de imagen del producto',
-      estado TINYINT(1) NOT NULL DEFAULT 1 COMMENT '1: activo, 0: inactivo'
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;`;
+    const query = `
+      CREATE TABLE IF NOT EXISTS ${this.table} (
+        id_producto INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+        nombre_producto VARCHAR(50) NOT NULL,
+        categoria_id INT(11) NOT NULL,
+        descripcion VARCHAR(200) NOT NULL,
+        precio DECIMAL(10,2) NOT NULL,
+        stock INT(11) NOT NULL,
+        imagen_url VARCHAR(200) NOT NULL COMMENT 'URL de imagen del producto',
+        estado TINYINT(1) NOT NULL DEFAULT 1 COMMENT '1: activo, 0: inactivo',
+        FOREIGN KEY (categoria_id) REFERENCES categoria(id_categoria)
+          ON DELETE RESTRICT
+          ON UPDATE CASCADE
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+    `;
 
-    await this.execute(query);
+    try {
+      await this.execute(query);
+      console.log(`✅ Tabla '${this.table}' creada o verificada correctamente`);
+      this.foreignKeyCreated = true;  // Se creó la tabla y la FK
+    } catch (error) {
+      console.error(`❌ Error al crear tabla '${this.table}':`, error);
+      this.foreignKeyCreated = false; // No se creó la tabla o la FK falló
+      throw error;
+    }
   }
 
   async getAllProducts() {
@@ -122,13 +136,13 @@ export default class ProductsDaoMysql extends Mysql {
   }
 }
 
-// 👉 Exporto la función para app.js
+// 👉 Exporto la función para app.js o script inicial
 export async function createProductsTable() {
   const db = new Mysql();
-  await db.initialize();  // <-- Asegura conexión antes de ejecutar query
+  await db.initialize();  // Asegura conexión antes de ejecutar query
   const query = `
     CREATE TABLE IF NOT EXISTS producto (
-      id_producto INT(11) NOT NULL AUTO_INCREMENT,
+      id_producto INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
       nombre_producto VARCHAR(50) NOT NULL,
       categoria_id INT(11) NOT NULL,
       descripcion VARCHAR(200) NOT NULL,
@@ -136,7 +150,9 @@ export async function createProductsTable() {
       stock INT(11) NOT NULL,
       imagen_url VARCHAR(200) NOT NULL COMMENT 'URL de imagen del producto',
       estado TINYINT(1) NOT NULL DEFAULT 1 COMMENT '1: activo, 0: inactivo',
-      PRIMARY KEY (id_producto)
+      FOREIGN KEY (categoria_id) REFERENCES categoria(id_categoria)
+        ON DELETE RESTRICT
+        ON UPDATE CASCADE
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
   `;
   try {
