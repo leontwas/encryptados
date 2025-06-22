@@ -59,7 +59,7 @@ export default class UsersControllers {
 
       const userBody = this.helpers.createUser(req.body);
       const userData = { id_usuario: Number(id), ...userBody };
-      const result = await this.db.modifyUser(userData);
+      const result = await this.db.updateUser(userData);
       res.json(result);
     } catch (err) {
       res.status(400).json({ error: err.message });

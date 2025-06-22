@@ -55,11 +55,13 @@ async function safeLoad(fn, name) {
     console.error(`❌ Error al cargar ${name}:`, error);
   }
 }
+/*
+await safeLoad(loadCategoriasToDb, "Categorías");
+await safeLoad(loadProductsToDb, "Productos");
+await safeLoad(loadUsersToDb, "Usuarios");
+await safeLoad(loadDireccionesToDb, "Direcciones");
+await safeLoad(loadOrdenesToDb, "Órdenes");
+await safeLoad(loadDetallesToDb, "Detalles");
+await safeLoad(loadPagosToDb, "Pagos");
+*/
 
-//await safeLoad(loadCategoriasToDb, "Categorías");
-//await safeLoad(loadProductsToDb, "Productos");
-//await safeLoad(loadUsersToDb, "Usuarios");
-//await safeLoad(loadDireccionesToDb, "Direcciones");
-//await safeLoad(loadOrdenesToDb, "Órdenes");
-//await safeLoad(loadDetallesToDb, "Detalles");
-//await safeLoad(loadPagosToDb, "Pagos");
