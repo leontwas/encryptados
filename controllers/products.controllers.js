@@ -44,7 +44,7 @@ export default class ProductsControllers {
 
   modifyProduct = async (req, res) => {
     const product = this.helpers.createProduct(req.body);
-    const result = await this.db.modifyProduct(product);
+    const result = await this.db.updateProduct(product);
     res.json(result);
   };
 
