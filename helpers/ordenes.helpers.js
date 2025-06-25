@@ -8,7 +8,7 @@ export default class OrdenesHelpers {
       direccion_id,
       saldo,
       estado,
-      fecha_orden
+      fecha_facturacion
     } = newData;
 
     const orden = new Orden(
@@ -17,7 +17,7 @@ export default class OrdenesHelpers {
       parseInt(direccion_id),
       parseFloat(saldo),
       estado,
-      fecha_orden ? this.formatDate(fecha_orden) : this.formatDate(new Date()) // 👉 parseo la fecha o pongo fecha actual
+      fecha_facturacion ? this.formatDate(fecha_facturacion) : this.formatDate(new Date()) // 👉 parseo la fecha o pongo fecha actual
     );
 
     return orden;

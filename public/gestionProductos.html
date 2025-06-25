@@ -2,174 +2,125 @@
 <html lang="es">
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="apple-touch-icon" sizes="180x180" href="./favicon/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="./favicon/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="./favicon/favicon-16x16.png">
-    <link rel="stylesheet" href="./assets/css/fuentes.css">
-    <link rel="stylesheet" href="./assets/css/header.css">
-    <link rel="stylesheet" href="./assets/css/styles2.css">
-    <link rel="stylesheet" href="./assets//css/insumos.css">
-    <link rel="stylesheet" href="./assets/css/footer.css">
-    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.5.2/css/all.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-        crossorigin="anonymous"></script>
-    <title>Nosotros</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="./assets/css/fuentes.css">
+  <link rel="stylesheet" href="./assets/css/header.css">
+  <link rel="stylesheet" href="./assets/css/styles2.css">
+  <link rel="stylesheet" href="./assets/css/insumos.css">
+  <link rel="stylesheet" href="./assets/css/footer.css">
+  <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.5.2/css/all.css">
+  <title>Gestión de productos</title>
 </head>
 
 <body>
-    <header class="header">
+  <header class="header">
+    <a href="index.html"><img alt="logo Encryptados" src="./assets/images/logo.png" class="logo"></a>
+    <div class="titulos">
+      <h1 class="Empresa">Encryptados</h1>
+      <h2 id="insumos" class="categoria">La tecnología al alcance de tu mano</h2>
+    </div>
+  </header>
 
-        <a href="index.html">
-            <img alt="logo Encryptados" src="./assets/images/logo.png" class="logo">
-        </a>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item"><a class="nav-link active" href="index.html">Inicio</a></li>
+          <li class="nav-item"><a class="nav-link" href="./insumos.html">Productos</a></li>
+          <li class="nav-item"><a class="nav-link" href="./servicios.html">Servicios</a></li>
+          <li class="nav-item"><a class="nav-link" href="./contacto.html">Contacto</a></li>
+          <li class="nav-item"><a class="nav-link" href="./nosotros.html">Nosotros</a></li>
+          <li class="nav-item"><a class="nav-link" href="./login.html" id="admin">Admin</a></li>
+        </ul>
+        <form class="d-flex">
+          <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Buscar">
+          <button class="btn btn-outline-success" type="submit">Buscar</button>
+        </form>
+      </div>
+    </div>
+  </nav>
 
-        <div class="titulos">
-            <h1 class="Empresa">Encryptados</h1>
-            <h2 id="insumos" class="categoria">La tecnología al alcance de tu mano</h2>
-        </div>
-    </header>
-
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="index.html">
-                            Inicio
-                        </a>
-                    </li>
-
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="./insumos.html">
-                            Productos
-                        </a>
-                    </li>
-                                        <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="./servicios.html">
-                            Servicios
-                        </a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="./contacto.html">
-                            Contacto
-                        </a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="./nosotros.html">
-                            Nosotros
-                        </a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link" href="./login.html" id="admin">
-                            Admin
-                        </a>
-                    </li>
-                </ul>
-                <form class="d-flex">
-                    <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
-                    <button class="btn btn-outline-success" type="submit">Buscar</button>
-                </form>
-            </div>
-        </div>
-    </nav>
-<div class="titulo-crud">
+  <div class="titulo-crud">
     <h2>Gestión de productos</h2>
-</div>
-   <main>
-  <section class="contenedor">
-    <div class="bg-black bg-opacity-75 text-black p-5">
-      <form id="formulario" action="http://localhost:8080" method="POST">
-        <div class="form-floating mb-3">
-          <input name="id_producto" type="number" class="form-control" id="id_producto" placeholder="id_producto" required>
-          <label for="id_producto">ID Producto</label>
-        </div>
+  </div>
 
-        <div class="form-floating mb-3">
-          <input name="nombre_producto" type="text" class="form-control" id="nombre_producto" placeholder="nombre_producto" required>
-          <label for="nombre_producto">Nombre del producto</label>
-        </div>
-
-        <div class="form-floating mb-3">
-          <select name="categoria_id" class="form-control" id="categoria_id" required>
-            <option value="">Seleccione una categoría</option>
-            <option value="1">PC de escritorio</option>
-            <option value="2">Notebooks</option>
-            <option value="3">Tablets</option>
-            <option value="4">Periféricos</option>
-          </select>
-          <label for="categoria_id">Categoría</label>
-        </div>
-
-        <div class="form-floating mb-3">
-          <input name="descripcion" type="text" class="form-control" id="descripcion" placeholder="descripcion" required>
-          <label for="descripcion">Descripción</label>
-        </div>
-
-        <div class="form-floating mb-3">
-          <input name="precio" type="number" class="form-control" id="precio" placeholder="precio" required>
-          <label for="precio">Precio</label>
-        </div>
-
-        <div class="form-floating mb-3">
-          <input name="stock" type="number" class="form-control" id="stock" placeholder="stock" required>
-          <label for="stock">Stock</label>
-        </div>
-        
-        <div class="form-floating mb-3">
+  <main>
+    <section class="contenedor">
+      <div class="bg-black bg-opacity-75 text-black p-5">
+        <form id="formulario">
+          <div class="form-floating mb-3">
+            <input name="id_producto" type="number" class="form-control" id="id_producto" placeholder="id_producto" required>
+            <label for="id_producto">ID Producto</label>
+          </div>
+          <div class="form-floating mb-3">
+            <input name="nombre_producto" type="text" class="form-control" id="nombre_producto" placeholder="nombre_producto" required>
+            <label for="nombre_producto">Nombre del producto</label>
+          </div>
+          <div class="form-floating mb-3">
+            <select name="categoria_id" class="form-control" id="categoria_id" required>
+              <option value="">Seleccione una categoría</option>
+              <option value="1">PC de escritorio</option>
+              <option value="2">Notebooks</option>
+              <option value="3">Tablets</option>
+              <option value="4">Periféricos</option>
+            </select>
+            <label for="categoria_id">Categoría</label>
+          </div>
+          <div class="form-floating mb-3">
+            <input name="descripcion" type="text" class="form-control" id="descripcion" placeholder="descripcion" required>
+            <label for="descripcion">Descripción</label>
+          </div>
+          <div class="form-floating mb-3">
+            <input name="precio" type="number" class="form-control" id="precio" placeholder="precio" required>
+            <label for="precio">Precio</label>
+          </div>
+          <div class="form-floating mb-3">
+            <input name="stock" type="number" class="form-control" id="stock" placeholder="stock" required>
+            <label for="stock">Stock</label>
+          </div>
+          <div class="form-floating mb-3">
             <input name="imagen_url" type="url" class="form-control" id="imagen_url" placeholder="imagen_url" required>
             <label for="imagen_url">URL de la imagen</label>
-        </div>
-        
-        <div class="form-floating mb-3">
+          </div>
+          <div class="form-floating mb-3">
             <select name="estado" class="form-control" id="estado" required>
-                <option value="">Seleccione estado</option>
-                <option value="1">Activo</option>
-                <option value="0">Inactivo</option>
+              <option value="">Seleccione estado</option>
+              <option value="1">Activo</option>
+              <option value="0">Inactivo</option>
             </select>
             <label for="estado">Estado</label>
-        </div>
-        <div class="d-flex gap-2">
-            <button type="button" class="btn btn-primary">Limpiar</button>
-            <button type="button" class="btn btn-success">Agregar</button>
-            <button type="button" class="btn btn-warning">Modificar</button>
-            <button type="button" class="btn btn-danger">Eliminar</button>
-            <button type="button" class="btn btn-primary">Buscar producto por nombre</button>
-            <button type="button" class="btn btn-primary">Buscar producto por ID</button>
-            </div>
+          </div>
+
+          <div class="d-flex gap-2 flex-wrap mb-3">
+            <button type="button" class="btn btn-primary" id="btnLimpiar">Limpiar</button>
+            <button type="button" class="btn btn-success" id="btnAgregar">Agregar</button>
+            <button type="button" class="btn btn-warning" id="btnModificar">Modificar</button>
+            <button type="button" class="btn btn-danger" id="btnEliminar">Eliminar</button>
+            <button type="button" class="btn btn-info" onclick = "alert(documentGetElementByID)" id="btnBuscarNombre">Buscar por nombre</button>
+            <button type="button" class="btn btn-secondary" id="btnBuscarID">Buscar por ID</button>
+          </div>
+
+          <div id="mensaje" class="mt-3"></div>
         </form>
-        </div>
-        </section>
-        </main>
+      </div>
+    </section>
+  </main>
 
+  <footer>
+    <div class="footlist">
+      <a class="footlink fab fa-brands fa-youtube fa-2x" href="https://youtube.com" target="_blank"></a>
+      <a class="footlink fa-brands fa-instagram fa-2x" href="https://www.instagram.com" target="_blank"></a>
+      <a class="footlink fa-brands fa-whatsapp fa-2x" href="https://whatsapp.com" target="_blank"></a>
+      <a class="footlink fa-brands fa-facebook fa-2x" href="https://www.facebook.com/" target="_blank"></a>
+    </div>
+    <p><small>&copy; 2025 Todos los derechos reservados</small></p>
+  </footer>
 
-    <footer>
-        <div class="footlist">
-            <a class="footlink fab fa-brands fa-youtube fa-2x" href="https://youtube.com" title="YouTube"
-                target="_blank"></a>
-            <a class="footlink fa-brands fa-instagram fa-2x" href="https://www.instagram.com" title="Instagram"
-                target="_blank"></a>
-            <a class="footlink fa-brands fa-whatsapp fa-2x" href="https://whatsapp.com" title="Whatsapp"
-                target="_blank"></a>
-            <a class="footlink fa-brands fa-facebook fa-2x" href="https://www.facebook.com/" title="facebook"
-                target="_blank"></a>
-        </div>
-        <p>
-            <small>&copy; 2025 Todos los derechos reservados</small>
-        </p>
-    </footer>
-    <script src="./assets/js/busqueda.js"></script>
+  <script src="./assets/js/crud.producto.js"></script>
 </body>
-
 </html>

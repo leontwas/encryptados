@@ -14,25 +14,36 @@ export default class DetallesDaoMysql extends Mysql {
   }
 
   async #createTable() {
-    const query = `
-      CREATE TABLE IF NOT EXISTS ${this.table} (
-        id_detalle_orden INT(11) NOT NULL AUTO_INCREMENT,
-        orden_id INT(11) NOT NULL,
-        producto_id INT(11) NOT NULL,
-        cantidad INT(4) NOT NULL,
-        precio_unidad INT(8) NOT NULL COMMENT 'Precio al momento de compra',
-        PRIMARY KEY (id_detalle_orden),
-        INDEX (orden_id),
-        INDEX (producto_id),
-        FOREIGN KEY (orden_id) REFERENCES orden(id_orden) ON DELETE CASCADE ON UPDATE CASCADE,
-        FOREIGN KEY (producto_id) REFERENCES producto(id_producto) ON DELETE RESTRICT ON UPDATE CASCADE
-      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-    `;
+    try {
+      const query = `
+        CREATE TABLE IF NOT EXISTS ${this.table} (
+          id_detalle_orden INT(11) NOT NULL AUTO_INCREMENT,
+          orden_id INT(11) NOT NULL,
+          producto_id INT(11) NOT NULL,
+          cantidad INT(4) NOT NULL,
+          precio_unidad INT(8) NOT NULL COMMENT 'Precio al momento de compra',
+          PRIMARY KEY (id_detalle_orden),
+          INDEX (orden_id),
+          INDEX (producto_id),
+          FOREIGN KEY (orden_id) REFERENCES orden(id_orden) ON DELETE CASCADE ON UPDATE CASCADE,
+          FOREIGN KEY (producto_id) REFERENCES producto(id_producto) ON DELETE RESTRICT ON UPDATE CASCADE
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+      `;
+      await this.execute(query);
+      console.log(`✅ Tabla '${this.table}' creada o verificada correctamente`);
+    } catch (error) {
+      console.error(`❌ Error al crear tabla '${this.table}':`, error);
+    }
+  }
 
-    await this.execute(query);
+  async #checkConnection() {
+    if (!this.connection) {
+      await this.initialize();
+    }
   }
 
   async getAllDetalles() {
+    await this.#checkConnection();
     try {
       return await this.execute(`SELECT * FROM ${this.table}`);
     } catch (error) {
@@ -42,6 +53,7 @@ export default class DetallesDaoMysql extends Mysql {
   }
 
   async getDetalleById(id_detalle_orden) {
+    await this.#checkConnection();
     try {
       const rows = await this.execute(
         `SELECT * FROM ${this.table} WHERE id_detalle_orden = ?`,
@@ -55,6 +67,7 @@ export default class DetallesDaoMysql extends Mysql {
   }
 
   async addDetalle({ orden_id, producto_id, cantidad, precio_unidad }) {
+    await this.#checkConnection();
     const sql = `
       INSERT INTO ${this.table} (orden_id, producto_id, cantidad, precio_unidad)
       VALUES (?, ?, ?, ?)
@@ -73,6 +86,7 @@ export default class DetallesDaoMysql extends Mysql {
   }
 
   async updateDetalle({ id_detalle_orden, orden_id, producto_id, cantidad, precio_unidad }) {
+    await this.#checkConnection();
     const sql = `
       UPDATE ${this.table} SET 
         orden_id = ?, 
@@ -96,6 +110,7 @@ export default class DetallesDaoMysql extends Mysql {
   }
 
   async deleteDetalle(id_detalle_orden) {
+    await this.#checkConnection();
     const sql = `DELETE FROM ${this.table} WHERE id_detalle_orden = ?`;
     try {
       return await this.execute(sql, [id_detalle_orden]);
