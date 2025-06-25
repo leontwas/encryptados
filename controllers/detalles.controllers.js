@@ -28,7 +28,7 @@ export default class DetallesControllers {
 
   modifyDetalle = async (req, res) => {
     const detalle = this.helpers.createDetalle(req.body);
-    const result = await this.db.modifyDetalle(detalle);
+    const result = await this.db.updateDetalle(detalle);
     res.json(result);
   };
 

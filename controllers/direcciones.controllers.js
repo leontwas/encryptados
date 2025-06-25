@@ -42,7 +42,7 @@ export default class DireccionesControllers {
       }
       const direccionBody = this.helpers.createDireccion(req.body);
       const direccionData = { id_direccion: Number(id), ...direccionBody };
-      const result = await this.db.modifyDireccion(direccionData);
+      const result = await this.db.updateDireccion(direccionData);
       res.json(result);
     } catch (err) {
       res.status(400).json({ error: err.message });

@@ -59,7 +59,7 @@ export default class CategoriasControllers {
 
       const categoriaBody = this.helpers.createCategoria(req.body);
       const categoriaData = { id_categoria: Number(id), ...categoriaBody };
-      const result = await this.db.modifyCategoria(categoriaData);
+      const result = await this.db.updateCategoria(categoriaData);
       res.json(result);
     } catch (err) {
       res.status(400).json({ error: err.message });

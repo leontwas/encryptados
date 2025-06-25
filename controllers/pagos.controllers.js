@@ -44,7 +44,7 @@ export default class PagosControllers {
 
       const pagoBody = this.helpers.createPago(req.body);
       const pagoData = { id_pago: Number(id), ...pagoBody };
-      const result = await this.db.modifyPago(pagoData);
+      const result = await this.db.updatePago(pagoData);
       res.json(result);
     } catch (err) {
       res.status(400).json({ error: err.message });

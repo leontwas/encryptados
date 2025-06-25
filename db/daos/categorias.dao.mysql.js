@@ -25,10 +25,12 @@ export default class CategoriasDaoMysql extends Mysql {
       console.log(`✅ Tabla '${this.table}' creada o verificada correctamente`);
     } catch (error) {
       console.error(`❌ Error al crear tabla '${this.table}':`, error);
+      throw error;
     }
   }
 
   async getAllCategorias() {
+    if (!this.connection) await this.initialize();
     try {
       return await this.execute(`SELECT * FROM ${this.table}`);
     } catch (error) {
@@ -38,6 +40,7 @@ export default class CategoriasDaoMysql extends Mysql {
   }
 
   async getCategoriaById(id_categoria) {
+    if (!this.connection) await this.initialize();
     try {
       const rows = await this.execute(
         `SELECT * FROM ${this.table} WHERE id_categoria = ?`,
@@ -51,6 +54,7 @@ export default class CategoriasDaoMysql extends Mysql {
   }
 
   async addCategoria({ nombre_categoria }) {
+    if (!this.connection) await this.initialize();
     try {
       const sql = `INSERT INTO ${this.table} (nombre_categoria) VALUES (?)`;
       return await this.execute(sql, [nombre_categoria]);
@@ -60,7 +64,27 @@ export default class CategoriasDaoMysql extends Mysql {
     }
   }
 
+async updateCategoria({ id_categoria, nombre_categoria }) {
+  await this.initialize();
+  const sql = `
+    UPDATE ${this.table} SET 
+      nombre_categoria = ?
+    WHERE id_categoria = ?
+  `;
+  try {
+    return await this.execute(sql, [
+      nombre_categoria,
+      id_categoria,
+    ]);
+  } catch (error) {
+    console.error("❌ Error al actualizar la categoría:", error);
+    throw error;
+  }
+}
+
+
   async deleteCategoria(id_categoria) {
+    if (!this.connection) await this.initialize();
     try {
       const sql = `DELETE FROM ${this.table} WHERE id_categoria = ?`;
       return await this.execute(sql, [id_categoria]);
@@ -86,5 +110,6 @@ export async function createCategoriasTable() {
     console.log("✅ Tabla 'categoria' creada o verificada correctamente");
   } catch (error) {
     console.error("❌ Error al crear tabla categoria:", error);
+    throw error;
   }
 }

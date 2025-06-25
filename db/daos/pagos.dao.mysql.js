@@ -30,16 +30,21 @@ export default class PagosDaoMysql extends Mysql {
           FOREIGN KEY (orden_id) REFERENCES orden(id_orden) ON DELETE CASCADE ON UPDATE CASCADE
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
       `;
-
       await this.execute(query);
       console.log(`✅ Tabla '${this.table}' creada o verificada correctamente`);
-
     } catch (error) {
       console.error(`❌ Error al crear tabla '${this.table}':`, error);
     }
   }
 
+  async #checkConnection() {
+    if (!this.connection) {
+      await this.initialize();
+    }
+  }
+
   async getAllPagos() {
+    await this.#checkConnection();
     try {
       return await this.execute(`SELECT * FROM ${this.table}`);
     } catch (error) {
@@ -49,6 +54,7 @@ export default class PagosDaoMysql extends Mysql {
   }
 
   async getPagoById(id_pago) {
+    await this.#checkConnection();
     try {
       const rows = await this.execute(
         `SELECT * FROM ${this.table} WHERE id_pago = ?`,
@@ -62,7 +68,12 @@ export default class PagosDaoMysql extends Mysql {
   }
 
   async addPago({ orden_id, metodo_pago, estado_pago, fecha_pago }) {
-    const sql = `INSERT INTO ${this.table} (orden_id, metodo_pago, estado_pago, fecha_pago) VALUES (?, ?, ?, ?)`;
+    await this.#checkConnection();
+    const sql = `
+      INSERT INTO ${this.table} 
+      (orden_id, metodo_pago, estado_pago, fecha_pago) 
+      VALUES (?, ?, ?, ?)
+    `;
     try {
       return await this.execute(sql, [orden_id, metodo_pago, estado_pago, fecha_pago]);
     } catch (error) {
@@ -72,7 +83,15 @@ export default class PagosDaoMysql extends Mysql {
   }
 
   async updatePago({ id_pago, orden_id, metodo_pago, estado_pago, fecha_pago }) {
-    const sql = `UPDATE ${this.table} SET orden_id = ?, metodo_pago = ?, estado_pago = ?, fecha_pago = ? WHERE id_pago = ?`;
+    await this.#checkConnection();
+    const sql = `
+      UPDATE ${this.table} SET 
+        orden_id = ?, 
+        metodo_pago = ?, 
+        estado_pago = ?, 
+        fecha_pago = ? 
+      WHERE id_pago = ?
+    `;
     try {
       return await this.execute(sql, [orden_id, metodo_pago, estado_pago, fecha_pago, id_pago]);
     } catch (error) {
@@ -82,6 +101,7 @@ export default class PagosDaoMysql extends Mysql {
   }
 
   async deletePago(id_pago) {
+    await this.#checkConnection();
     const sql = `DELETE FROM ${this.table} WHERE id_pago = ?`;
     try {
       return await this.execute(sql, [id_pago]);

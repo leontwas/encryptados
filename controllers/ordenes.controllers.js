@@ -44,7 +44,7 @@ export default class OrdenesControllers {
 
       const ordenBody = this.helpers.createOrden(req.body);
       const ordenData = { id_orden: Number(id), ...ordenBody };
-      const result = await this.db.modifyOrden(ordenData);
+      const result = await this.db.updateOrden(ordenData);
       res.json(result);
     } catch (err) {
       res.status(400).json({ error: err.message });

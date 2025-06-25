@@ -37,7 +37,15 @@ export default class DireccionDaoMysql extends Mysql {
     }
   }
 
+  // Método privado para asegurar conexión
+  async #checkConnection() {
+    if (!this.connection) {
+      await this.initialize();
+    }
+  }
+
   async getAllDirecciones() {
+    await this.#checkConnection();
     try {
       return await this.execute(`SELECT * FROM ${this.table}`);
     } catch (error) {
@@ -47,6 +55,7 @@ export default class DireccionDaoMysql extends Mysql {
   }
 
   async getDireccionById(id_direccion) {
+    await this.#checkConnection();
     try {
       const rows = await this.execute(
         `SELECT * FROM ${this.table} WHERE id_direccion = ?`,
@@ -70,6 +79,7 @@ export default class DireccionDaoMysql extends Mysql {
     codigo_postal,
     is_facturado = 0
   }) {
+    await this.#checkConnection();
     const sql = `
       INSERT INTO ${this.table} 
       (usuario_id, etiqueta, calle, nro, localidad, provincia, pais, codigo_postal, is_facturado)
@@ -105,6 +115,7 @@ export default class DireccionDaoMysql extends Mysql {
     codigo_postal,
     is_facturado = 0
   }) {
+    await this.#checkConnection();
     const sql = `
       UPDATE ${this.table} SET
         usuario_id = ?,
@@ -138,6 +149,7 @@ export default class DireccionDaoMysql extends Mysql {
   }
 
   async deleteDireccion(id_direccion) {
+    await this.#checkConnection();
     const sql = `DELETE FROM ${this.table} WHERE id_direccion = ?`;
     try {
       return await this.execute(sql, [id_direccion]);

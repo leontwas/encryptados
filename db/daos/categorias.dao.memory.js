@@ -27,6 +27,7 @@ export default class CategoriasDaoMemory {
     return true;
   }
 
+
   updateCategoria(data) {
     let modifiedCategoria = null;
     this.categorias = this.categorias.map((categoria) => {
