@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login Tienda</title>
+  <link rel="stylesheet" href="./assets/css/login2.css">
+</head>
+<body>
+  <div class="container">
+    <h2>Iniciar Sesión</h2>
+    <form id="loginForm">
+      <input type="text" id="username" placeholder="Nombre de usuario" required/>
+    <input type="email" id="email" placeholder="Correo electrónico" required />
+    <input type="password" id="password" placeholder="Contraseña" required />
+    <button type="submit">Ingresar</button>
+    </form>
+    
+    <h2>Registrarse</h2>
+    <form id="registerForm">
+        <input type="text" id="usernameRegister" placeholder="Nombre de usuario" required />
+        <input type="email" id="emailRegister" placeholder="Email" required />
+        <input type="password" id="passwordRegister" placeholder="Contraseña" required />
+        <button type="submit">Crear cuenta</button>
+    </form>
+
+    <div id="mensaje"></div>
+  </div>
+   <script src="/assets/js/login2.js"></script>
+   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</body>
+</html>

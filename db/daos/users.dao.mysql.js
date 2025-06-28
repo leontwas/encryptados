@@ -1,4 +1,5 @@
 import Mysql from "../connections/Mysql.js";
+import bcrypt from 'bcrypt';
 
 export default class UsersDaoMysql extends Mysql {
   constructor() {
@@ -68,16 +69,22 @@ export default class UsersDaoMysql extends Mysql {
     }
   }
 
- async addUser({ nombre_usuario, email, pass }) {
+async addUser({ nombre_usuario, email, pass }) {
   await this.initialize();
-  const sql = `INSERT INTO ${this.table} (nombre_usuario, email, pass) VALUES (?, ?, ?)`;
+
   try {
-    return await this.execute(sql, [nombre_usuario, email, pass]);
+    // Hashear la contraseña antes de insertarla
+    const hashedPassword = await bcrypt.hash(pass, 10);
+
+    const sql = `INSERT INTO ${this.table} (nombre_usuario, email, pass) VALUES (?, ?, ?)`;
+    return await this.execute(sql, [nombre_usuario, email, hashedPassword]);
+
   } catch (error) {
     if (error.code === 'ER_DUP_ENTRY' || error.errno === 1062) {
       console.log(`❌ Usuario NO agregado: el email '${email}' ya existe.`);
-      return null; // o podés devolver algo específico para indicar que no se agregó
+      return null; // Podés devolver un objeto con success: false si preferís
     }
+
     console.error("❌ Error al agregar usuario:", error);
     throw error;
   }

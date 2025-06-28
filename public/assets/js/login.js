@@ -1,45 +1,50 @@
-// Controlar el evento de enviar el formulario
-document.getElementById('loginForm').addEventListener('submit', async (event) => { 
+// Manejar el evento de registro de nuevo usuario
+document.getElementById('registerForm').addEventListener('submit', async (event) => {
     event.preventDefault();
 
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
+    const nombre_usuario = document.getElementById('usernameRegister').value;
+    const email = document.getElementById('emailRegister').value;
+    const pass = document.getElementById('passwordRegister').value;
 
-    const loginData = { username, password };
-    console.log("Entrando al catch");
+    const userData = { nombre_usuario, email, pass };
 
     try {
-        const response = await fetch('/.onrender/functions/login', {
+        const response = await fetch('/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(loginData),
+            body: JSON.stringify(userData),
         });
 
+        const result = await response.json();
+
         if (!response.ok) {
-            const errorData = await response.json();
-            alert('Error: ' + (errorData.message || 'Error desconocido'));
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: result.message || 'Error al crear usuario',
+                confirmButtonColor: '#d33'
+            });
             return;
         }
 
-        const result = await response.json();
-        localStorage.setItem('authToken', result.token);
-        window.location.href = './administrador.html';
+        Swal.fire({
+            icon: 'success',
+            title: '¡Éxito!',
+            text: 'Usuario creado con éxito',
+            confirmButtonColor: '#3085d6'
+        });
+
+        console.log(result);
+
     } catch (error) {
-        alert('Error de conexión al servidor.');
-        console.log('Error:', error);
+        Swal.fire({
+            icon: 'error',
+            title: 'Error de conexión',
+            text: 'No se pudo conectar con el servidor.',
+            confirmButtonColor: '#d33'
+        });
+        console.error('Error:', error);
     }
 });
-
-// Agregar funcionalidad al checkbox "Mostrar Contraseña"
-document.getElementById('visible').addEventListener('change', (event) => {
-    const passwordInput = document.getElementById('password');
-    if (event.target.checked) {
-        passwordInput.type = 'text';
-    } else {
-        passwordInput.type = 'password';
-    }
-});
-
-

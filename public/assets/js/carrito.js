@@ -73,31 +73,37 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Finalizar compra
-    function finalizarCompra() {
-        if (carrito.length === 0) {
-            alert('Su carrito está vacío. Por favor, agregue productos antes de proceder.');
-            return;
-        }
-
-        const totalAPagar = carrito.reduce((total, producto) => total + producto.precio * producto.cantidad, 0);
-
-        const productos = carrito
-            .map(producto =>
-                `Nombre: ${producto.nombre}, Cantidad: ${producto.cantidad}, Precio: $${producto.precio.toFixed(
-                    2
-                )}, Subtotal: $${(producto.precio * producto.cantidad).toFixed(2)}`
-            )
-            .join('\n');
-
-        localStorage.setItem('productos', productos);
-        localStorage.setItem('total', totalAPagar.toFixed(2));
-
-        alert(
-            `El total de su compra es: $${totalAPagar.toFixed(2)}.\n\nProductos:\n${productos}\n\nPor favor, complete sus datos en el formulario.`
-        );
-
-        window.location.href = '../comprar.html';
+function finalizarCompra() {
+    if (carrito.length === 0) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Carrito vacío',
+            text: 'Por favor, agregue productos antes de proceder.'
+        });
+        return;
     }
+
+    const totalAPagar = carrito.reduce((total, producto) => total + producto.precio * producto.cantidad, 0);
+
+    const productos = carrito
+        .map(producto =>
+            `Nombre: ${producto.nombre}, Cantidad: ${producto.cantidad}, Precio: $${producto.precio.toFixed(2)}, Subtotal: $${(producto.precio * producto.cantidad).toFixed(2)}`
+        )
+        .join('<br>');
+
+    localStorage.setItem('productos', productos);
+    localStorage.setItem('total', totalAPagar.toFixed(2));
+
+    Swal.fire({
+        title: 'Compra finalizada',
+        html: `El total de su compra es: <strong>$${totalAPagar.toFixed(2)}</strong><br><br><strong>Productos:</strong><br>${productos}<br><br>Será redirigido para completar sus datos.`,
+        icon: 'success',
+        confirmButtonText: 'Continuar'
+    }).then(() => {
+        window.location.href = '../comprar.html';
+    });
+}
+
 
     // Eventos para botones dentro del carrito
     const carritoContainer = document.getElementById('carrito-container');

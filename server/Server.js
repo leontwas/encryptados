@@ -7,7 +7,8 @@ import ProductsRoutes from '../routes/products.routes.js';
 import DetallesRoutes from '../routes/detalles.routes.js';
 import OrdenesRoutes from "../routes/ordenes.routes.js";
 import CategoriasRoutes from "../routes/categorias.routes.js";
-import PagosRoutes from "../routes/pagos.routes.js";    
+import PagosRoutes from "../routes/pagos.routes.js";
+import Login from "../models/Login.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -32,6 +33,7 @@ export default class Server {
         const productsRoutes = new ProductsRoutes();
         const detallesRoutes = new DetallesRoutes();
         const pagosRoutes = new PagosRoutes();
+
         Server.app.use('/users', usersRoutes.router);
         Server.app.use('/direcciones', direccionesRoutes.router);
         Server.app.use("/ordenes", ordenesRoutes.router);
@@ -39,6 +41,22 @@ export default class Server {
         Server.app.use('/products', productsRoutes.router);
         Server.app.use("/detalles", detallesRoutes.router);
         Server.app.use("/pagos", pagosRoutes.router);  
+
+        // ✅ Ruta API: Login
+        Server.app.post('/api/login', async (req, res) => {
+            const { email, password } = req.body;
+            const user = new Login(email, password);
+            const result = await user.autenticar();
+            res.json(result);
+        });
+
+        // ✅ Ruta API: Registro
+        Server.app.post('/api/register', async (req, res) => {
+            const { email, password } = req.body;
+            const user = new Login(email, password);
+            const result = await user.nuevo_usuario();
+            res.json(result);
+        });
 
         // ✅ Ruta específica para servir index.html
         Server.app.get('/', (req, res) => {
@@ -53,7 +71,6 @@ export default class Server {
     }
 
     static run(port) {
-       // console.clear();
         Server.middlewares();
         Server.routes();
         Server.runServer(port);
