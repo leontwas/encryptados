@@ -16,7 +16,7 @@ export default class Login {
 
     try {
       const rows = await db.execute(
-        'SELECT nombre_usuario, pwd_usuario FROM usuarios WHERE nombre_usuario = ?',
+        'SELECT nombre_usuario, pass FROM usuario WHERE nombre_usuario = ?',
         [this.email]
       );
 
@@ -46,7 +46,7 @@ export default class Login {
 
     try {
       const existing = await db.execute(
-        'SELECT id FROM usuarios WHERE nombre_usuario = ?',
+        "SELECT id_usuario FROM usuario WHERE nombre_usuario = ?",
         [this.email]
       );
 
@@ -56,7 +56,7 @@ export default class Login {
 
       const hash = await bcrypt.hash(this.#pwd, 10);
       await db.execute(
-        'INSERT INTO usuarios (nombre_usuario, pwd_usuario) VALUES (?, ?)',
+        'INSERT INTO usuario (nombre_usuario, pwd_usuario) VALUES (?, ?)',
         [this.email, hash]
       );
 

@@ -9,12 +9,12 @@ document.getElementById('registerForm').addEventListener('submit', async (event)
     const userData = { nombre_usuario, email, pass };
 
     try {
-        const response = await fetch('/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(userData),
+        const response = await fetch("/users", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(userData),
         });
 
         const result = await response.json();
