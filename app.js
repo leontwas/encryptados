@@ -33,7 +33,7 @@ async function checkDatabaseHasData() {
   }
 }
 
-// Función para cargar datos
+// Función para cargar datos con control de errores
 async function safeLoad(fn, name) {
   try {
     await fn();
@@ -50,28 +50,15 @@ async function main() {
   await db.initialize();
 
   // 2. Crear DAOs e inicializar tablas
-  const categoriasDao = new CategoriasDaoMysql();
-  await categoriasDao.init();
+  const categoriasDao = new CategoriasDaoMysql(); await categoriasDao.init();
+  const usersDao = new UsersDaoMysql(); await usersDao.init();
+  const productsDao = new ProductsDaoMysql(); await productsDao.init();
+  const direccionesDao = new DireccionesDaoMysql(); await direccionesDao.init();
+  const ordenesDao = new OrdenesDaoMysql(); await ordenesDao.init();
+  const pagosDao = new PagosDaoMysql(); await pagosDao.init();
+  const detallesDao = new DetallesDaoMysql(); await detallesDao.init();
 
-  const usersDao = new UsersDaoMysql();
-  await usersDao.init();
-
-  const productsDao = new ProductsDaoMysql();
-  await productsDao.init();
-
-  const direccionesDao = new DireccionesDaoMysql();
-  await direccionesDao.init();
-
-  const ordenesDao = new OrdenesDaoMysql();
-  await ordenesDao.init();
-
-  const pagosDao = new PagosDaoMysql();
-  await pagosDao.init();
-
-  const detallesDao = new DetallesDaoMysql();
-  await detallesDao.init();
-
-  // 3. Verificar si ya hay datos cargados y ejecutar los seeders si no hay
+  // 3. Verificar si ya hay datos cargados
   const dbHasData = await checkDatabaseHasData();
 
   if (!dbHasData) {

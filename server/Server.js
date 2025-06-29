@@ -1,4 +1,6 @@
+import axios from 'axios';
 import express from 'express';
+import cors from 'cors';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import UsersRoutes from '../routes/users.routes.js';
@@ -18,10 +20,11 @@ export default class Server {
     static app = express();
 
     static middlewares() {
+        Server.app.use(cors());
         Server.app.use(express.json());
         Server.app.use(express.urlencoded({ extended: true }));
 
-        // ✅ Middleware para servir archivos estáticos desde la carpeta "public"
+        // ✅ Servir archivos estáticos desde la carpeta "public"
         Server.app.use(express.static(path.join(__dirname, '../public')));
     }
 
@@ -42,7 +45,7 @@ export default class Server {
         Server.app.use("/detalles", detallesRoutes.router);
         Server.app.use("/pagos", pagosRoutes.router);  
 
-        // ✅ Ruta API: Login
+        // ✅ Login
         Server.app.post('/api/login', async (req, res) => {
             const { email, password } = req.body;
             const user = new Login(email, password);
@@ -50,7 +53,7 @@ export default class Server {
             res.json(result);
         });
 
-        // ✅ Ruta API: Registro
+        // ✅ Registro
         Server.app.post('/api/register', async (req, res) => {
             const { email, password } = req.body;
             const user = new Login(email, password);
@@ -58,7 +61,31 @@ export default class Server {
             res.json(result);
         });
 
-        // ✅ Ruta específica para servir index.html
+        // ✅ Chatbot IA usando Ollama
+        Server.app.post('/api/chatbot', async (req, res) => {
+            const { mensaje } = req.body;
+
+            if (!mensaje) {
+                return res.status(400).json({ error: 'No se recibió ningún mensaje' });
+            }
+
+            try {
+                const respuesta = await axios.post('http://localhost:11434/api/generate', {
+                    model: 'gemma:2b', // ✅ Modelo válido de Ollama
+                    prompt: mensaje,
+                    stream: false
+                });
+
+                res.json({ respuesta: respuesta.data.response });
+
+            } catch (error) {
+                console.error('❌ Error al conectar con Ollama:', error.message);
+                if (error.response?.data) console.error('🧪 Detalle:', error.response.data);
+                res.status(500).json({ error: 'Error al generar respuesta con IA' });
+            }
+        });
+
+        // ✅ Ruta raíz
         Server.app.get('/', (req, res) => {
             res.sendFile(path.join(__dirname, '../public/index.html'));
         });
@@ -66,7 +93,7 @@ export default class Server {
 
     static runServer(port) {
         Server.app.listen(port, () =>
-            console.log(`Servidor escuchando en http://localhost:${port}`)
+            console.log(`🚀 Servidor escuchando en http://localhost:${port}`)
         );
     }
 
