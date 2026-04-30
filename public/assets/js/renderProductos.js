@@ -4,22 +4,25 @@ document.addEventListener("DOMContentLoaded", () => {
   const productList = document.getElementById("product-list");
 
   productos.forEach((producto, index) => {
-    const card = document.createElement("div");
-    card.innerHTML = `
-      <div class="products">
-        <div class="article">
-          <img src="${producto.imagen}" class="container" alt="${producto.nombre}">
-          <p class="texto-negro1">${producto.nombre}</p>
-          <p class="texto-negro2">${producto.descripcion}</p>
-          <p class="description">$${producto.precio.toLocaleString()}</p>
-          <div class="botonera">
-            <button class="agregar" data-index="${index}" data-nombre="${producto.nombre}" data-precio="${producto.precio}">Comprar</button>
-            <button class="ver"><i class="fa-solid fa-cart-shopping" onclick="window.location.href='carrito.html'"></i></button>
+    const article = document.createElement("div");
+    article.classList.add("article");
+    article.innerHTML = `
+          <div class="img-container">
+            <img src="${producto.imagen}" alt="${producto.nombre}">
           </div>
-        </div>
-      </div>
+          <div class="info-container">
+            <p class="texto-negro1">${producto.nombre}</p>
+            <p class="texto-negro2">${producto.descripcion}</p>
+          </div>
+          <div class="footer-container">
+            <p class="description">$${producto.precio.toLocaleString()}</p>
+            <div class="botonera">
+              <button class="agregar" data-index="${index}" data-nombre="${producto.nombre}" data-precio="${producto.precio}">Comprar</button>
+              <button class="ver" onclick="window.location.href='carrito.html'"><i class="fas fa-shopping-cart"></i></button>
+            </div>
+          </div>
     `;
-    productList.appendChild(card);
+    productList.appendChild(article);
   });
 
   const botonesAgregar = document.querySelectorAll(".agregar");

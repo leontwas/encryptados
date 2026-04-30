@@ -9,7 +9,7 @@ html,
 body {
     width: 100%;
     height: 100%;
-    background: #262626;
+    background: #ffffff;
 }
 
 /*
@@ -62,18 +62,21 @@ font-size: 10px;
     left: 0;
     width: 100%;
     height: 100%;
-    background: #262626;
+    background: #fdfdfd;
     transform: rotateY(calc(var(--i) * 45deg)) translateZ(240px);
-    -webkit-box-reflect: below 0px linear-gradient(transparent, transparent, #0002);
+    -webkit-box-reflect: below 0px linear-gradient(transparent, transparent, #0001);
+    border: 1px solid #eee;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
 }
 
 .box span img {
     position: absolute;
-    top: 50px;
-    left: 10px;
-    width: 180px;
-    height: 200px;
-    object-fit: cover;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Muestra la imagen completa sin recortar */
+    padding: 10px; /* Un pequeño margen para que no toque los bordes */
 }
 
 .box span::before {
@@ -84,19 +87,13 @@ font-size: 10px;
     z-index: 2;
 }
 
-.outerBox:not(:hover) .box{
-    animation: animate 20s linear infinite;
+.box {
+    transform-style: preserve-3d;
+    position: relative;
 }
 
-@keyframes animate {
-    0% {
-        transform: perspective(1000px) rotateY(0deg);
-    }
+/* El hover se manejará en JS para evitar conflictos */
 
-    100% {
-        transform: perspective(1000px) rotateY(360deg);
-    }
-}
 
 @media (max-width: 678px) {
     .container {
@@ -110,6 +107,15 @@ font-size: 10px;
         "right-aside"
         "low-content"
         "footer";
+    }
+
+    .box {
+        width: 150px;
+        height: 220px;
+    }
+
+    .box span {
+        transform: rotateY(calc(var(--i) * 45deg)) translateZ(180px);
     }
 }
     

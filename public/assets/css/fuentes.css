@@ -2,9 +2,7 @@
   font-family: Roboto, serif;
   font-size: 3rem;
   font-style: italic !important; 
-  background: linear-gradient(to bottom, rgb(108, 197, 252) 50%, rgb(99, 99, 100) 50%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: #333;
   line-height: 1;
 }
 

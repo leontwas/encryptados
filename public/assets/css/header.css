@@ -20,7 +20,7 @@ header {
   padding: 0;
   width: 100vw;
   box-sizing: border-box;
-  background-color: rgb(8, 8, 8);
+  background-color: #ffffff;
 }
 
 nav .form-control-2 {
@@ -50,12 +50,12 @@ nav .form-control-2 {
 
 /* Ajustar la barra de navegación para ocupar todo el ancho */
 .navbar {
-  background-color: #3c4a63 !important;
+  background-color: #0056b3 !important; /* Azul vibrante */
   color: white !important;
   width: 100vw !important;
-  /* Hace que ocupe todo el ancho de la pantalla */
-  padding: 0;
-  /* Elimina cualquier padding adicional */
+  padding: 10px 0;
+  border-bottom: 3px solid #004494;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
   margin-left: 0;
   /* Asegura que no haya márgenes laterales */
   margin-right: 0;
@@ -90,10 +90,8 @@ nav .form-control-2 {
 }
 
 .navbar-nav .nav-link:hover {
-  color: black;
-  /* Color del texto al hacer hover */
+  color: #07f8e4 !important;
   border-bottom: 4px solid #07f8e4;
-  /* Borde inferior al hacer hover */
 }
 
 .nav-link.dropdown-toggle::after {
@@ -102,7 +100,7 @@ nav .form-control-2 {
 
 .navbar-light .navbar-nav .nav-link {
   color: white;
-  /* Cambia el color del texto del menú */
+  font-weight: 500;
 }
 
 .navbar-light .navbar-brand {
@@ -121,26 +119,26 @@ nav .form-control-2 {
 }
 
 .navbar-light .dropdown-menu {
-  background-color: #333;
-  /* Cambia el fondo del menú desplegable */
+  background-color: #0056b3;
+  border: 1px solid #004494;
 }
 
 .navbar-light .dropdown-item {
   color: white;
-  /* Cambia el color del texto de los items en el dropdown */
 }
 
 .navbar-light .dropdown-item:hover {
-  background-color: #555;
-  /* Cambia el fondo al pasar el cursor */
+  background-color: #004494;
 }
 
-.nav-link.active {
-  color: white !important;
+/* Página activa: Indicador visual fuerte */
+.navbar-light .navbar-nav .nav-link.active {
+  color: #07f8e4 !important;
+  font-weight: bold;
 }
 
-.nav-link.active:hover {
-  color: black !important;
+.navbar-light .navbar-nav .nav-link.active:hover {
+  color: #ffffff !important;
 }
 
 .navbar-light {
@@ -162,12 +160,9 @@ nav .form-control-2 {
 }
 
 .btn-outline-success:hover {
-  color: black;
-  /* Texto en negro al hacer hover */
+  color: #0056b3; /* Azul del navbar sobre el fondo blanco del hover */
   background-color: white;
-  /* Fondo blanco al hacer hover */
-  border-color: black;
-  /* Borde negro al hacer hover */
+  border-color: #0056b3;
 }
 
 /* Logo alineado a la izquierda */
@@ -186,8 +181,8 @@ nav .form-control-2 {
 
 .categoria {
   font-size: 1.2rem;
-  color: white;
-  font-weight: bold;
+  color: #666;
+  font-weight: normal;
   text-align: center;
   margin-top: 9px;
   margin-bottom: 9px;
@@ -236,8 +231,8 @@ nav .form-control-2 {
 }
 
 .menu>li:hover>a {
-  color: black;
-  border-bottom:4px solid #07f8e4;
+  color: #07f8e4;
+  border-bottom: 4px solid #07f8e4;
   transition: all 0.1s ease-in-out;
 }
 
