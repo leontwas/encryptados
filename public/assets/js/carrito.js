@@ -24,15 +24,40 @@ document.addEventListener('DOMContentLoaded', () => {
             const productoElemento = document.createElement('div');
             productoElemento.classList.add('producto', 'mb-3', 'p-3', 'border', 'rounded');
 
+            // --- Lógica mejorada para la imagen ---
+            // Si el producto no tiene imagen, intentamos buscarla en la data maestra
+            let imgSrc = producto.imagen;
+            
+            // Si no tiene imagen guardada en localStorage, intentamos recuperarla
+            if (!imgSrc) {
+                // Importante: Esto requiere que productos esté disponible o lo buscamos de otra forma
+                // Por ahora usamos un fallback más seguro
+                imgSrc = `./assets/images/img${producto.id}.png`; 
+            }
+
             productoElemento.innerHTML = `
-                <div class="d-flex align-items-center">
-                    <div>
-                        <h5>${producto.nombre}</h5>
-                        <p>Precio: $${producto.precio.toFixed(2)}</p>
-                        <p>Cantidad: ${producto.cantidad}</p>
-                        <p>Subtotal: $${subtotal.toFixed(2)}</p>
-                        <button class="btn btn-danger btn-sm eliminar" data-id="${producto.id}">Eliminar</button>
-                        <button class="btn btn-primary btn-sm agregar-mas" data-id="${producto.id}">Agregar Más</button>
+                <div class="row align-items-center g-3">
+                    <div class="col-4 col-sm-3 col-md-2">
+                        <div class="img-cart-container" style="background: #fff; border: 1px solid #eee; border-radius: 8px; width: 80px; height: 80px; display: flex; align-items: center; justify-content: center; overflow: hidden; margin: 0 auto;">
+                            <img src="${imgSrc}" 
+                                 alt="${producto.nombre}" 
+                                 onerror="this.src='./assets/images/logo.png'"
+                                 style="width: 100%; height: 100%; object-fit: contain; padding: 5px;">
+                        </div>
+                    </div>
+                    <div class="col-8 col-sm-9 col-md-10">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="info-cart">
+                                <h5 class="mb-1" style="font-size: 1.1rem; color: #333; font-weight: 600;">${producto.nombre}</h5>
+                                <p class="mb-0 text-muted small">Unitario: $${producto.precio.toLocaleString()}</p>
+                                <p class="mb-0">Cant: <strong>${producto.cantidad}</strong></p>
+                                <p class="mb-0">Subtotal: <strong style="color: #0056b3;">$${subtotal.toLocaleString()}</strong></p>
+                            </div>
+                            <div class="btn-group" style="gap: 2px;">
+                                <button class="btn btn-primary agregar-mas" data-id="${producto.id}" style="width: 38px !important; height: 38px !important; display: flex; align-items: center; justify-content: center; font-weight: bold; border-radius: 4px; padding: 0;">+</button>
+                                <button class="btn btn-danger eliminar" data-id="${producto.id}" style="width: 38px !important; height: 38px !important; display: flex; align-items: center; justify-content: center; font-weight: bold; border-radius: 4px; padding: 0;">-</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             `;

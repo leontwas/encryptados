@@ -105,6 +105,28 @@
         </p>
     </footer>
     <script src="./assets/js/carrito.js"></script>
+    <!-- Modal de Detalles de Producto -->
+    <div id="product-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-content-custom">
+            <div class="modal-header-custom">
+                <h3 id="modal-title"></h3>
+                <button id="close-modal" class="btn-close-custom">&times;</button>
+            </div>
+            <div class="modal-body-custom">
+                <div class="modal-img-container">
+                    <img id="modal-img" src="" alt="">
+                </div>
+                <div class="modal-info-container">
+                    <p id="modal-description" class="full-description"></p>
+                    <p id="modal-price" class="modal-price-text"></p>
+                    <div class="modal-actions">
+                        <button id="modal-add-to-cart" class="btn btn-primary btn-lg w-100 mb-2">Agregar al Carrito</button>
+                        <button id="modal-back" class="btn btn-secondary w-100">Volver al catálogo</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <script src="./assets/js/busqueda.js"></script>
     <script type="module" src="./assets/js/renderProductos.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
